@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SysEduBench — Systems Education in the AI Era</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,500;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="data.js"></script>
+<style>
+:root{
+  --acc:#2952a3;--acc2:#4a7fd4;
+  --acc-soft:rgba(41,82,163,.08);--acc-border:rgba(41,82,163,.2);
+  --bg:#f8f8f5;--surf:#fff;--surf2:#f2f2ee;--surf3:#eaeae5;
+  --brd:#e0e0d8;--brd2:#d0d0c8;
+  --tx:#18181a;--tx2:#5c5c60;--tx3:#9c9c9e;
+  --pass:#166534;--pass-bg:#dcfce7;
+  --fail:#991b1b;--fail-bg:#fee2e2;
+  --warn:#92400e;--warn-bg:#fef3c7;
+  --coming:#6b6b62;--coming-bg:#f2f2ee;
+  --r:10px;--rf:14px;
+  --serif:'Source Serif 4',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+[data-dark]{
+  --bg:#0c0c0a;--surf:#121210;--surf2:#1a1a18;--surf3:#222220;
+  --brd:#2a2a26;--brd2:#383834;
+  --tx:#f0f0e8;--tx2:#888880;--tx3:#484844;
+  --pass:#34d399;--pass-bg:rgba(52,211,153,.1);
+  --fail:#f87171;--fail-bg:rgba(248,113,113,.1);
+  --warn:#fbbf24;--warn-bg:rgba(251,191,36,.1);
+  --coming:#6b6b62;--coming-bg:#1a1a18;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);line-height:1.6;min-height:100vh;transition:background .2s,color .2s;}
+a{color:inherit;text-decoration:none;}button{font-family:inherit;cursor:pointer;}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:var(--surf);border-bottom:1px solid var(--brd);}
+.nv{max-width:1160px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:58px;}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;color:var(--tx);}
+.brand-logo{width:28px;height:28px;border-radius:7px;background:var(--acc);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;font-family:var(--mono);flex-shrink:0;}
+.brand-name{font-size:15px;font-weight:600;letter-spacing:-.3px;}
+.nav-links{display:flex;align-items:center;gap:2px;}
+.nl{padding:6px 13px;border-radius:7px;font-size:13px;font-weight:500;color:var(--tx2);background:none;border:none;transition:all .15s;}
+.nl:hover{color:var(--tx);background:var(--surf2);}
+.nl.on{color:var(--acc);background:var(--acc-soft);}
+.nav-gh{margin-left:10px;padding:7px 16px;background:var(--tx);color:var(--surf);border-radius:7px;font-size:13px;font-weight:600;border:none;display:flex;align-items:center;gap:6px;transition:opacity .15s;}
+.nav-gh:hover{opacity:.82;}
+.tbtn{width:32px;height:32px;border-radius:7px;background:var(--surf2);border:1px solid var(--brd);color:var(--tx2);font-size:15px;display:flex;align-items:center;justify-content:center;margin-left:8px;border:none;}
+.tbtn:hover{color:var(--tx);}
+
+/* WRAP */
+.wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
+
+/* ── HOME: QUESTION SECTION ── */
+.question-section{padding:80px 0 72px;}
+.qs-inner{max-width:720px;}
+.qs-eyebrow{font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--acc);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.qs-line{width:20px;height:1.5px;background:var(--acc);}
+.qs-question{font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:500;letter-spacing:-1.2px;line-height:1.1;margin-bottom:24px;color:var(--tx);}
+.qs-question em{font-style:italic;color:var(--tx2);}
+.qs-body{font-size:16px;color:var(--tx2);line-height:1.8;margin-bottom:36px;max-width:580px;}
+.qs-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .15s;}
+.btn-p{background:var(--acc);color:#fff;}.btn-p:hover{opacity:.88;}
+.btn-g{background:transparent;color:var(--tx);border:1px solid var(--brd);}.btn-g:hover{background:var(--surf2);}
+
+/* ── HOME: THREE PILLARS ── */
+.pillars{border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);background:var(--surf);display:grid;grid-template-columns:repeat(3,1fr);}
+@media(max-width:680px){.pillars{grid-template-columns:1fr;}}
+.pillar{padding:32px 32px;border-right:1px solid var(--brd);}
+.pillar:last-child{border-right:none;}
+.pillar-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px;}
+.pillar-title{font-size:15px;font-weight:600;margin-bottom:8px;}
+.pillar-body{font-size:13px;color:var(--tx2);line-height:1.72;}
+
+/* ── HOME: FOR WHOM ── */
+.for-whom{padding:64px 0;}
+.fw-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;}
+@media(max-width:680px){.fw-grid{grid-template-columns:1fr;}}
+.fw-card{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rf);padding:28px 28px 24px;cursor:pointer;transition:all .2s;}
+.fw-card:hover{border-color:var(--acc);transform:translateY(-2px);}
+.fw-card-icon{font-size:24px;color:var(--acc);margin-bottom:14px;}
+.fw-card-title{font-size:16px;font-weight:600;margin-bottom:8px;}
+.fw-card-body{font-size:13px;color:var(--tx2);line-height:1.72;margin-bottom:16px;}
+.fw-card-cta{font-size:13px;font-weight:600;color:var(--acc);display:flex;align-items:center;gap:4px;}
+
+/* ── HOME: TWO LENSES ── */
+.lenses{padding:64px 0;background:var(--surf);border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);}
+.lens-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:28px;}
+@media(max-width:680px){.lens-grid{grid-template-columns:1fr;}}
+.lens{padding:32px;background:var(--bg);}
+.lens:first-child{border-radius:var(--rf) 0 0 var(--rf);border:1px solid var(--brd);border-right:none;}
+.lens:last-child{border-radius:0 var(--rf) var(--rf) 0;border:1px solid var(--brd);}
+@media(max-width:680px){.lens:first-child{border-radius:var(--rf) var(--rf) 0 0;border-right:1px solid var(--brd);border-bottom:none;}.lens:last-child{border-radius:0 0 var(--rf) var(--rf);}}
+.lens-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:100px;margin-bottom:16px;}
+.lens-tag.exam{background:rgba(41,82,163,.1);color:var(--acc);}
+.lens-tag.lab{background:rgba(232,93,4,.1);color:#c2410c;}
+.lens-title{font-family:var(--serif);font-size:22px;font-weight:500;margin-bottom:10px;}
+.lens-body{font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:16px;}
+.lens-detail{display:flex;flex-direction:column;gap:8px;}
+.lens-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--tx2);}
+.lens-bullet{width:5px;height:5px;border-radius:50%;background:var(--acc);flex-shrink:0;margin-top:7px;}
+
+/* ── HOME: COURSE STRIP ── */
+.course-strip{padding:56px 0;}
+.cs-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+.cs-tag{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surf);border:1px solid var(--brd);border-radius:8px;font-size:13px;font-weight:500;}
+.cs-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.cs-meta{font-size:11px;color:var(--tx3);margin-left:2px;}
+
+/* ── HOME: ABSTRACT ── */
+.abstract-sec{padding:56px 0;border-top:1px solid var(--brd);}
+.abstract{font-family:var(--serif);font-size:16px;color:var(--tx);line-height:1.82;border-left:2.5px solid var(--acc);padding-left:22px;}
+
+/* ── SECTION (shared) ── */
+.sec{padding:60px 0;}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:8px;}
+.sec-title{font-family:var(--serif);font-size:24px;font-weight:500;letter-spacing:-.5px;}
+.sec-sub{font-size:13px;color:var(--tx2);}
+.divider{border:none;border-top:1px solid var(--brd);}
+
+/* ── SYSLAB ── */
+.tier-toggle{display:inline-flex;background:var(--surf2);border:1px solid var(--brd);border-radius:8px;padding:3px;gap:2px;margin-bottom:20px;}
+.tt{padding:6px 14px;border-radius:6px;font-size:13px;font-weight:500;color:var(--tx2);border:none;background:transparent;transition:all .15s;}
+.tt.on{background:var(--surf);color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.card{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rf);overflow:hidden;}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:var(--surf2);}
+th{padding:11px 16px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--tx2);border-bottom:1px solid var(--brd);}
+th.r{text-align:right;}th.c{text-align:center;}
+tbody tr{border-bottom:1px solid var(--brd);transition:background .12s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--surf2);}
+td{padding:13px 16px;font-size:13.5px;vertical-align:middle;}
+td.r{text-align:right;}td.c{text-align:center;}
+.tname{font-weight:600;}.tsub{font-size:11px;color:var(--tx2);margin-top:1px;}
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;}
+.b-pass{background:var(--pass-bg);color:var(--pass);}
+.b-fail{background:var(--fail-bg);color:var(--fail);}
+.b-live{background:rgba(41,82,163,.12);color:var(--acc);border:1px solid var(--acc-border);}
+.b-coming{background:var(--coming-bg);color:var(--coming);}
+.harness-pill{display:inline-flex;align-items:center;font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px;}
+.hp-react{background:var(--surf3);color:var(--tx2);}
+.hp-cc{background:var(--acc-soft);color:var(--acc);border:1px solid var(--acc-border);}
+.prog{display:flex;align-items:center;gap:8px;justify-content:flex-end;}
+.pbar{width:80px;height:4px;background:var(--surf3);border-radius:100px;overflow:hidden;flex-shrink:0;}
+.pfill{height:100%;border-radius:100px;background:var(--acc);}
+.pfill.hi{background:var(--pass);}
+.pval{font-family:var(--mono);font-size:11px;color:var(--tx2);min-width:36px;text-align:right;}
+.hm-wrap{overflow-x:auto;}
+.hm{border-collapse:collapse;min-width:640px;width:100%;}
+.hm th{padding:8px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--tx2);text-align:center;white-space:nowrap;background:var(--surf2);border-bottom:1px solid var(--brd);}
+.hm th.left{text-align:left;padding-left:16px;}
+.hm td{padding:0;height:42px;text-align:center;}
+.hm td.label{padding:0 16px;font-size:12px;font-weight:600;color:var(--tx);text-align:left;white-space:nowrap;min-width:170px;background:var(--surf);}
+.hm-cell{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;font-family:var(--mono);}
+.hm tr{border-bottom:1px solid var(--brd);}
+.hm tr:last-child{border-bottom:none;}
+.course-list{display:flex;flex-direction:column;gap:8px;}
+.course-item{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rf);padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;}
+.course-item:hover{border-color:var(--acc);background:var(--acc-soft);}
+.course-item.active{border-color:var(--acc);background:var(--acc-soft);}
+.course-item.coming{cursor:default;opacity:.6;}
+.course-item.coming:hover{border-color:var(--brd);background:var(--surf);}
+.ci-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.ci-name{font-size:14px;font-weight:600;flex:1;}
+.ci-meta{font-size:12px;color:var(--tx2);}
+.domain-pill{font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;color:#fff;}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:24px;}
+.mc{background:var(--surf2);border-radius:var(--r);padding:14px 16px;}
+.mc-lbl{font-size:11px;color:var(--tx3);font-weight:600;letter-spacing:.7px;text-transform:uppercase;margin-bottom:6px;}
+.mc-val{font-size:20px;font-weight:600;font-family:var(--mono);color:var(--tx);}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:600px){.ig{grid-template-columns:1fr;}}
+.ic{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rf);padding:20px;}
+.ic-title{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--tx3);margin-bottom:12px;}
+.ir{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--brd);font-size:13px;}
+.ir:last-child{border-bottom:none;}
+.ik{color:var(--tx2);}.iv{font-weight:600;font-family:var(--mono);font-size:12px;}
+.placeholder-card{background:var(--surf);border:1px dashed var(--brd2);border-radius:var(--rf);padding:48px 32px;text-align:center;}
+.ph-icon{font-size:32px;color:var(--tx3);margin-bottom:16px;}
+.ph-title{font-size:16px;font-weight:600;margin-bottom:8px;}
+.ph-sub{font-size:13px;color:var(--tx2);line-height:1.7;max-width:420px;margin:0 auto;}
+.gap-fill-exam{height:100%;border-radius:100px;background:#2952a3;}
+.gap-fill-lab{height:100%;border-radius:100px;background:#e85d04;}
+.cite-pre{background:var(--surf2);border:1px solid var(--brd);border-radius:8px;padding:16px 18px;font-family:var(--mono);font-size:12px;color:var(--tx2);line-height:1.9;white-space:pre-wrap;word-break:break-word;margin-top:12px;}
+footer{border-top:1px solid var(--brd);padding:28px;text-align:center;font-size:13px;color:var(--tx3);}
+footer a{color:var(--acc);}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="env,react">
+const {useState,useEffect,useRef}=React;
+const D=window.SEB_DATA;
+const DOMAIN_COLORS={os:'#2952a3',dist:'#166534',intro:'#7c3aed',db:'#92400e'};
+const DOMAIN_LABELS={os:'Operating Systems',dist:'Distributed Systems',intro:'Intro to Systems',db:'Database Systems'};
+
+/* ── INFO TIP ── */
+function InfoTip({text}){
+  const[show,setShow]=useState(false);
+  const[pos,setPos]=useState({x:0,y:0});
+  const btnRef=useRef();
+
+  const handleEnter=()=>{
+    if(btnRef.current){
+      const r=btnRef.current.getBoundingClientRect();
+      setPos({x:r.left+r.width/2,y:r.top-10});
+    }
+    setShow(true);
+  };
+
+  const btnStyle={
+    display:'inline-flex',alignItems:'center',justifyContent:'center',
+    width:15,height:15,borderRadius:'50%',
+    background:'#2952a3',color:'#ffffff',
+    fontSize:10,fontWeight:800,lineHeight:1,
+    textTransform:'none',letterSpacing:0,
+    flexShrink:0,cursor:'help',userSelect:'none',
+    border:'none',padding:0,
+    fontFamily:'Georgia,serif',fontStyle:'italic',
+  };
+
+  return(
+    <span style={{position:'relative',display:'inline-flex',alignItems:'center',
+      marginLeft:5,verticalAlign:'middle',textTransform:'none',letterSpacing:0}}>
+      <button
+        ref={btnRef}
+        style={btnStyle}
+        onMouseEnter={handleEnter}
+        onMouseLeave={()=>setShow(false)}
+        onFocus={handleEnter}
+        onBlur={()=>setShow(false)}
+        onClick={e=>{e.stopPropagation();show?setShow(false):handleEnter();}}
+        aria-label={'More info: '+text}
+      >i</button>
+      {show&&typeof document!=='undefined'&&ReactDOM.createPortal(
+        <span style={{
+          position:'fixed',
+          left:pos.x,top:pos.y,
+          transform:'translate(-50%, -100%)',
+          background:'#1a1a18',color:'#f0f0e8',
+          fontSize:12,lineHeight:1.6,fontWeight:400,
+          padding:'9px 12px',borderRadius:8,
+          whiteSpace:'normal',width:220,zIndex:99999,
+          boxShadow:'0 6px 20px rgba(0,0,0,.3)',
+          pointerEvents:'none',textAlign:'left',
+          fontFamily:'"Inter",system-ui,sans-serif',
+          letterSpacing:'normal',textTransform:'none',
+        }}>
+          <span style={{position:'absolute',top:'100%',left:'50%',transform:'translateX(-50%)',
+            width:0,height:0,
+            borderLeft:'5px solid transparent',borderRight:'5px solid transparent',
+            borderTop:'5px solid #1a1a18'}}/>
+          {text}
+        </span>,
+        document.body
+      )}
+    </span>
+  );
+}
+
+function useHash(def){
+  const r=()=>location.hash.replace('#/','').split('/')[0]||def;
+  const[v,s]=useState(r);
+  useEffect(()=>{const h=()=>s(r());window.addEventListener('hashchange',h);return()=>window.removeEventListener('hashchange',h);},[]);
+  return[v,id=>{location.hash='#/'+id;}];
+}
+
+function hmColor(val,dark){
+  if(val===null||val===undefined)return dark?'#1a1a18':'#f2f2ee';
+  if(val>=.95)return dark?'#14532d':'#dcfce7';
+  if(val>=.75)return dark?'#166534':'#bbf7d0';
+  if(val>=.5) return dark?'#1a3a2a':'#d1fae5';
+  if(val>=.25)return dark?'#1c2a1a':'#ecfdf5';
+  return dark?'#2a1a1a':'#fef2f2';
+}
+function hmText(val,dark){
+  if(val===null||val===undefined)return dark?'#484844':'#c0c0b8';
+  if(val>=.75)return dark?'#86efac':'#14532d';
+  if(val>=.5) return dark?'#4ade80':'#166534';
+  if(val>=.25)return dark?'#bbf7d0':'#15803d';
+  return dark?'#6b7280':'#9ca3af';
+}
+
+/* ══════════════════════════════════════════════
+   HOME PAGE
+══════════════════════════════════════════════ */
+function HomePage({go}){
+  return<>
+    {/* THE QUESTION */}
+    <div className="wrap">
+      <div className="question-section">
+        <div className="qs-inner">
+          <div className="qs-eyebrow"><div className="qs-line"/>Systems education in the AI era</div>
+          <h1 className="qs-question">
+            What can AI agents actually do<br/>
+            in a systems course?
+          </h1>
+          <p className="qs-body">
+            AI coding tools are already in every classroom. Students use them.
+            Instructors worry about them. But we lack systematic, grounded evidence
+            of what these tools can actually accomplish on the real tasks that define
+            systems education — not toy problems, but the same assignments
+            graded by the same autograders used for students.
+          </p>
+          <p className="qs-body" style={{marginTop:-16}}>
+            SysEduBench is an answer to that question. It turns university systems
+            course materials — exams and programming labs — into a rigorous,
+            reproducible benchmark. The same graders. The same tasks. A level playing
+            field for AI and humans.
+          </p>
+          <div className="qs-btns">
+            <button className="btn btn-p" onClick={()=>go('syslab')}><i className="ti ti-flask" aria-hidden="true"/>Explore lab results</button>
+            <button className="btn btn-g" onClick={()=>go('sysexam')}><i className="ti ti-file-description" aria-hidden="true"/>Exam results</button>
+            <a className="btn btn-g" href={D.paper.arxiv_url} target="_blank"><i className="ti ti-file-text" aria-hidden="true"/>Read the paper</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* THREE PILLARS */}
+    <div className="pillars">
+      <div className="pillar">
+        <div className="pillar-icon" style={{background:'rgba(41,82,163,.1)',color:'var(--acc)'}}><i className="ti ti-school" aria-hidden="true"/></div>
+        <div className="pillar-title">Real course materials</div>
+        <div className="pillar-body">Tasks come directly from university courses at MIT, UIUC, PKU, SFU, and UChicago — the same assignments students work on. Not synthetic problems. Not simplified versions.</div>
+      </div>
+      <div className="pillar">
+        <div className="pillar-icon" style={{background:'rgba(22,101,52,.1)',color:'#166534'}}><i className="ti ti-robot" aria-hidden="true"/></div>
+        <div className="pillar-title">Automated, reproducible grading</div>
+        <div className="pillar-body">Each lab runs inside a sandboxed Docker container and is graded by the course's own autograder. Exam questions use exact-match or an LLM judge validated against human TAs. No rubric approximations.</div>
+      </div>
+      <div className="pillar">
+        <div className="pillar-icon" style={{background:'rgba(124,58,237,.1)',color:'#7c3aed'}}><i className="ti ti-arrows-exchange" aria-hidden="true"/></div>
+        <div className="pillar-title">Knowledge versus building</div>
+        <div className="pillar-body">Every course contributes both an exam and lab component on the same topics. This lets us directly measure the gap between knowing how a system works and being able to build one.</div>
+      </div>
+    </div>
+
+    {/* TWO LENSES */}
+    <div className="lenses">
+      <div className="wrap">
+        <div className="sec-head" style={{marginBottom:0}}>
+          <div className="sec-title">Two lenses on the same question</div>
+          <div className="sec-sub">Paired evaluation over the same course material</div>
+        </div>
+        <div className="lens-grid">
+          <div className="lens">
+            <div className="lens-tag exam"><i className="ti ti-file-description" aria-hidden="true"/>SysExam</div>
+            <div className="lens-title">Can it reason about systems?</div>
+            <div className="lens-body">Close-book exam questions drawn directly from course exams. Multiple choice, true/false, and short answer — graded the same way TAs grade students.</div>
+            <div className="lens-detail">
+              {['194 questions from 10 exams','Covers OS, distributed systems, databases','Graded by ExactMatch or LLM-as-Judge (r = 0.97 vs human TAs)'].map(t=><div className="lens-item" key={t}><div className="lens-bullet"/>{t}</div>)}
+            </div>
+          </div>
+          <div className="lens">
+            <div className="lens-tag lab"><i className="ti ti-terminal-2" aria-hidden="true"/>SysLab</div>
+            <div className="lens-title">Can it build a working system?</div>
+            <div className="lens-body">Programming assignments from the same courses. The agent gets a bash shell, starter code, and the problem statement — and must write code that passes the course autograder.</div>
+            <div className="lens-detail">
+              {['49 lab tasks across 7 courses','Sandboxed Docker environments','Graded by the course\'s official test suite'].map(t=><div className="lens-item" key={t}><div className="lens-bullet" style={{background:'#c2410c'}}/>{t}</div>)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* FOR WHOM */}
+    <div className="wrap">
+      <div className="for-whom">
+        <div className="sec-head"><div className="sec-title">Who is it for?</div></div>
+        <div className="fw-grid">
+          <div className="fw-card" onClick={()=>go('syslab')}>
+            <div className="fw-card-icon"><i className="ti ti-microscope" aria-hidden="true"/></div>
+            <div className="fw-card-title">Researchers</div>
+            <div className="fw-card-body">A rigorous, reproducible benchmark for measuring AI progress on systems-level tasks. Compare models, study failure patterns, and track capability over time against tasks grounded in real engineering practice.</div>
+            <div className="fw-card-cta">View results <i className="ti ti-arrow-right" aria-hidden="true"/></div>
+          </div>
+          <div className="fw-card" onClick={()=>go('syslab')}>
+            <div className="fw-card-icon"><i className="ti ti-chalkboard" aria-hidden="true"/></div>
+            <div className="fw-card-title">Educators</div>
+            <div className="fw-card-body">A tool to audit your own assignments. See not just whether AI can complete a task, but how it approaches it — which parts it handles easily, which it struggles with, and where meaningful human work remains.</div>
+            <div className="fw-card-cta">Explore tasks <i className="ti ti-arrow-right" aria-hidden="true"/></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr className="divider"/>
+
+    {/* COURSES COVERED */}
+    <div className="wrap">
+      <div className="course-strip">
+        <div className="sec-head">
+          <div className="sec-title">Courses covered</div>
+          <div className="sec-sub">7 courses · 5 institutions · 4 systems domains</div>
+        </div>
+        <div className="cs-grid">
+          {D.courses.map(c=><div className="cs-tag" key={c.id}>
+            <div className="cs-dot" style={{background:DOMAIN_COLORS[c.domain]}}/>
+            <span>{c.name}</span>
+            <span className="cs-meta">{c.language} · {c.institution.split(' ')[0]}{c.institution.split(' ').length>1&&c.institution.split(' ')[1]}</span>
+          </div>)}
+        </div>
+      </div>
+    </div>
+    <hr className="divider"/>
+
+    {/* ABSTRACT */}
+    <div className="wrap">
+      <div className="abstract-sec">
+        <div className="sec-head">
+          <div className="sec-title">From the paper</div>
+          <a href={D.paper.arxiv_url} target="_blank" style={{fontSize:13,color:'var(--acc)',display:'flex',alignItems:'center',gap:4}}><i className="ti ti-external-link" aria-hidden="true"/>Read full paper</a>
+        </div>
+        <blockquote className="abstract">{D.paper.abstract}</blockquote>
+        <p style={{fontSize:13,color:'var(--tx3)',marginTop:12,fontStyle:'italic'}}>{D.paper.authors.join(', ')} · {D.paper.venue}</p>
+      </div>
+    </div>
+    <hr className="divider"/>
+  </>;
+}
+
+/* ══════════════════════════════════════════════
+   SYSLAB PAGE
+══════════════════════════════════════════════ */
+function SysLabPage({dark}){
+  const[selCourse,setSelCourse]=useState('uiuc_cs423');
+  const course=D.courses.find(c=>c.id===selCourse);
+  return<div className="wrap"><div className="sec">
+    <div className="sec-head"><div className="sec-title">SysLab</div><div className="sec-sub">49 tasks · sandboxed Docker · graded by course autograders</div></div>
+    <div style={{display:'grid',gridTemplateColumns:'260px 1fr',gap:24,alignItems:'start'}}>
+      <div>
+        <div style={{fontSize:11,fontWeight:700,letterSpacing:'.8px',textTransform:'uppercase',color:'var(--tx3)',marginBottom:10}}>Select a course</div>
+        <div className="course-list">
+          {D.courses.map(c=><div key={c.id} className={'course-item'+(c.id===selCourse?' active':'')+(c.has_results?'':' coming')} onClick={()=>c.has_results&&setSelCourse(c.id)}>
+            <div className="ci-dot" style={{background:DOMAIN_COLORS[c.domain]}}/>
+            <div style={{flex:1,minWidth:0}}>
+              <div className="ci-name">{c.name}</div>
+              <div className="ci-meta">{c.language} · {c.institution.split(',')[0].split('University')[0].trim()}</div>
+            </div>
+          {c.has_results
+              ?(() => {
+                const hasModels = c.tiers && c.tiers.some(t => t.models.length > 0);
+                return hasModels
+                  ? <span className="badge b-pass">Results</span>
+                  : <span className="badge b-live">Live</span>;
+              })()
+              :<span className="badge b-coming">Soon</span>}
+          </div>)}
+        </div>
+      </div>
+      <div>
+        {course.has_results
+          ?<CourseDetail key={course.id} course={course} dark={dark}/>
+          :<div className="placeholder-card">
+            <div className="ph-icon"><i className="ti ti-clock" aria-hidden="true"/></div>
+            <div className="ph-title">Results coming soon</div>
+            <div className="ph-sub">This course is part of SysEduBench. Results will appear here once published.</div>
+          </div>}
+      </div>
+    </div>
+  </div></div>;
+}
+
+function CourseDetail({course,dark}){
+  const[tier,setTier]=useState(course.tiers[0].id);
+  const t=course.tiers.find(tt=>tt.id===tier);
+  const hasModels=t.models.length>0;
+  const sorted=hasModels?[...t.models].sort((a,b)=>b.task_success-a.task_success):[];
+  const best=sorted[0];
+  return<div>
+    <div style={{marginBottom:20}}>
+      <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:6}}>
+        <div className="domain-pill" style={{background:DOMAIN_COLORS[course.domain]}}>{DOMAIN_LABELS[course.domain]}</div>
+        <span style={{fontSize:13,color:'var(--tx2)'}}>{course.institution} · {course.language} · {course.year}</span>
+      </div>
+      <div style={{fontSize:20,fontFamily:'var(--serif)',fontWeight:500}}>{course.name} — {course.full_name}</div>
+    </div>
+    {course.tiers.length>1&&<div className="tier-toggle">
+      {course.tiers.map(tt=><button key={tt.id}
+        className={'tt'+(tier===tt.id?' on':'')}
+        onClick={()=>{setTier(tt.id);setExpanded(null);}}
+        style={tt.id==='student'&&tier===tt.id?{color:'#166534'}:{}}>
+        {tt.id==='student'&&<span style={{marginRight:4}}>🎓</span>}
+        {tt.label}
+      </button>)}
+    </div>}
+    <p style={{fontSize:12,color:'var(--tx3)',marginBottom:20}}>{t.desc}</p>
+
+    {!hasModels
+      ?<div className="placeholder-card" style={{marginBottom:20}}>
+          <div className="ph-icon"><i className="ti ti-loader" aria-hidden="true"/></div>
+          <div className="ph-title">Model results pending</div>
+          <div className="ph-sub">
+            This course is enabled and the tasks are defined. Model results will appear here once the evaluation runs are complete.
+            The task list below is ready.
+          </div>
+        </div>
+      :<>
+        <div className="metric-grid">
+          <div className="mc"><div className="mc-lbl">Best task success</div><div className="mc-val">{Math.round(best.task_success*100)}%</div></div>
+          <div className="mc"><div className="mc-lbl">Best model</div><div className="mc-val" style={{fontSize:13}}>{best.name}</div></div>
+          <div className="mc"><div className="mc-lbl">Models tested</div><div className="mc-val">{t.models.length}</div></div>
+          <div className="mc"><div className="mc-lbl">Tasks</div><div className="mc-val">{course.tasks.length}</div></div>
+        </div>
+        <div className="card" style={{marginBottom:20}}>
+          <table>
+            <thead><tr>
+              <th>#</th><th>Model</th><th>Harness</th>
+              <th className="r">Task success<InfoTip text="Fraction of the 8 tasks this model solved completely (full marks) across 3 runs. A task counts as solved if at least one run passes."/></th>
+              <th className="r">Mean score<InfoTip text="Average percentage of points earned across all tasks and all runs. Partial credit counts — a model scoring 11/12 on Malloc still contributes here."/></th>
+              <th className="r">Avg turns<InfoTip text="Average number of agent turns used per task. More turns often means more debugging iterations. Passing runs typically use fewer turns than failing ones."/></th>
+            </tr></thead>
+            <tbody>
+              {sorted.map((m,i)=><tr key={m.id}>
+                <td style={{color:'var(--tx3)',fontFamily:'var(--mono)',fontSize:12,fontWeight:600}}>{i+1}</td>
+                <td><div className="tname">{m.name}</div><div className="tsub">{m.org}</div></td>
+                <td><span className={'harness-pill '+(m.harness==='Claude Code'?'hp-cc':'hp-react')}>{m.harness}</span></td>
+                <td className="r"><div className="prog"><div className="pbar"><div className={'pfill'+(m.task_success>=.7?' hi':'')} style={{width:Math.round(m.task_success*100)+'%'}}/></div><span className="pval" style={{minWidth:64}}>{Math.round(m.task_success*100)}% <span style={{fontSize:10,color:'var(--tx3)'}}>({Math.round(m.task_success*course.tasks.length)}/{course.tasks.length})</span></span></div></td>
+                <td className="r"><span style={{fontFamily:'var(--mono)',fontSize:12}}>{Math.round(m.mean_score*100)}%</span></td>
+                <td className="r"><span style={{fontFamily:'var(--mono)',fontSize:12}}>{Math.round(m.avg_turns)}</span></td>
+              </tr>)}
+            </tbody>
+          </table>
+        </div>
+        <div style={{fontSize:13,fontWeight:600,marginBottom:10}}>
+          Task-level heatmap{tier==='student'?' (errors excluded)':''}<InfoTip text="Each cell shows the mean score for one model on one task, averaged across 3 runs. 100% = full credit every run. Green = high, red = low or zero."/> <span style={{fontSize:11,color:'var(--tx3)',fontWeight:400,marginLeft:4}}>mean score per model × task (3 runs each)</span>
+        </div>
+        <div className="card" style={{marginBottom:20}}>
+          <div className="hm-wrap">
+            <table className="hm">
+              <thead><tr>
+                <th className="left">Model</th>
+                {course.tasks.map(t=><th key={t.id}>{t.short}</th>)}
+              </tr></thead>
+              <tbody>
+                {sorted.map(m=><tr key={m.id}>
+                  <td className="label">{m.name} <span style={{fontSize:10,color:'var(--tx3)',fontWeight:400}}>{m.org}</span></td>
+                  {course.tasks.map(t=>{
+                    const val=m.per_task[t.id];
+                    return<td key={t.id}><div className="hm-cell" style={{background:hmColor(val,dark),color:hmText(val,dark)}}>{val!==undefined?Math.round(val*100)+'%':'—'}</div></td>;
+                  })}
+                </tr>)}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </>
+    }
+
+    <div style={{fontSize:13,fontWeight:600,marginBottom:10}}>Task summary<InfoTip text="Best score = highest points any model achieved on this task out of the total available. Solved by = models that earned full marks on at least one run."/></div>
+    <div className="card">
+      <table>
+        <thead><tr>
+          <th>#</th>
+          <th>Task</th>
+          <th>Topics</th>
+          <th className="r">Best score<InfoTip text="Highest raw points any model scored, out of the task's total. A partial score means no model achieved full credit — but some made meaningful progress."/></th>
+          <th>Solved by<InfoTip text="Models that earned full marks (100%) on this task in at least one of their 3 runs. Empty means no model solved it completely under this resource tier."/></th>
+        </tr></thead>
+        <tbody>
+          {course.tasks.map((t,i)=>{
+            // best raw points any model achieved on this task
+            const scored=sorted.map(m=>({
+              model:m,
+              raw:m.per_task[t.id]!==undefined
+                ?Math.round(m.per_task[t.id]*t.max_points)
+                :null
+            })).filter(x=>x.raw!==null);
+            const bestRaw=scored.length>0?Math.max(...scored.map(x=>x.raw)):null;
+            const pct=bestRaw!==null?Math.round(bestRaw/t.max_points*100):null;
+            // models that hit full marks
+            const solvers=sorted.filter(m=>
+              m.per_task[t.id]!==undefined&&
+              Math.round(m.per_task[t.id]*t.max_points)===t.max_points
+            );
+            return<tr key={t.id}>
+              <td style={{color:'var(--tx3)',fontFamily:'var(--mono)',fontSize:11}}>MP{i+1}</td>
+              <td><div className="tname">{t.name}</div></td>
+              <td style={{fontSize:12,color:'var(--tx2)'}}>{t.topics}</td>
+              <td className="r">
+                {bestRaw!==null
+                  ?<div className="prog">
+                    <div className="pbar">
+                      <div className="pfill" style={{
+                        width:pct+'%',
+                        background:pct===100?'var(--pass)':pct>=60?'var(--acc)':'var(--fail)'
+                      }}/>
+                    </div>
+                    <span style={{
+                      fontFamily:'var(--mono)',fontSize:12,fontWeight:600,
+                      minWidth:56,textAlign:'right',
+                      color:pct===100?'var(--pass)':pct>=60?'var(--tx)':'var(--fail)'
+                    }}>{bestRaw} / {t.max_points}</span>
+                  </div>
+                  :<span style={{color:'var(--tx3)',fontSize:12}}>—</span>}
+              </td>
+              <td>
+                {solvers.length===0
+                  ?<span style={{fontSize:12,color:'var(--tx3)',fontStyle:'italic'}}>
+                    {bestRaw!==null&&bestRaw>0
+                      ?`Partial — best: ${scored.find(x=>x.raw===bestRaw)?.model.name} (${bestRaw}/${t.max_points})`
+                      :'Not solved'}
+                  </span>
+                  :<div style={{display:'flex',flexWrap:'wrap',gap:5}}>
+                    {solvers.map(m=><span key={m.id} style={{
+                      fontSize:11,fontWeight:600,padding:'2px 8px',borderRadius:100,
+                      background:'var(--pass-bg)',color:'var(--pass)',
+                      display:'inline-flex',alignItems:'center',gap:3
+                    }}><i className="ti ti-check" style={{fontSize:10}} aria-hidden="true"/>{m.name}</span>)}
+                  </div>}
+              </td>
+            </tr>;
+          })}
+        </tbody>
+      </table>
+    </div>
+  </div>;
+}
+
+/* ══════════════════════════════════════════════
+   SYSEXAM PAGE
+══════════════════════════════════════════════ */
+function SysExamPage(){
+  return<div className="wrap"><div className="sec">
+    <div className="sec-head"><div className="sec-title">SysExam</div><div className="sec-sub">194 questions · 10 exams · measures conceptual knowledge</div></div>
+    <div className="sec-head" style={{marginBottom:14}}><div style={{fontSize:14,fontWeight:600}}>The know–build gap</div><div className="sec-sub">Exam accuracy vs lab pass rate across all models</div></div>
+    <div className="card" style={{marginBottom:28}}>
+      <table>
+        <thead><tr><th>Model</th><th className="r">Exam accuracy</th><th className="r">Lab pass rate</th><th className="r">Gap</th></tr></thead>
+        <tbody>
+          {D.overall_results.map(m=><tr key={m.model}>
+            <td><div className="tname">{m.model}</div><div className="tsub">{m.org}</div></td>
+            <td className="r"><div className="prog"><div className="pbar"><div className="pfill" style={{width:m.exam+'%',background:'#2952a3'}}/></div><span className="pval">{m.exam}%</span></div></td>
+            <td className="r"><div className="prog"><div className="pbar"><div className="pfill" style={{width:m.lab+'%',background:'#e85d04'}}/></div><span className="pval">{m.lab}%</span></div></td>
+            <td className="r"><span style={{fontFamily:'var(--mono)',fontSize:13,fontWeight:600,color:'var(--fail)'}}>+{Math.round(m.exam-m.lab)}pp</span></td>
+          </tr>)}
+        </tbody>
+      </table>
+    </div>
+    <div style={{fontSize:14,fontWeight:600,marginBottom:14}}>Domain breakdown</div>
+    <div className="card" style={{marginBottom:28}}>
+      <div style={{overflowX:'auto'}}>
+        <table style={{minWidth:640}}>
+          <thead>
+            <tr><th>Model</th>{D.domains.map(d=><th key={d.id} className="c" colSpan={2} style={{borderLeft:'1px solid var(--brd)'}}>{d.name.replace('Operating ','OS ').replace('Distributed ','Dist. ').replace('Database ','DB ').replace('Intro to ','Intro ')}</th>)}</tr>
+            <tr style={{background:'var(--surf3)'}}><th style={{fontSize:10}}></th>{D.domains.map(d=>[<th key={d.id+'e'} className="c" style={{fontSize:10,borderLeft:'1px solid var(--brd)'}}>Exam</th>,<th key={d.id+'l'} className="c" style={{fontSize:10}}>Lab</th>])}</tr>
+          </thead>
+          <tbody>
+            {D.overall_results.map(m=><tr key={m.model}>
+              <td><div className="tname">{m.model}</div><div className="tsub">{m.org}</div></td>
+              {D.domains.map(d=>{
+                const v=m.by_domain[d.id];
+                return[
+                  <td key={d.id+'e'} className="c" style={{fontFamily:'var(--mono)',fontSize:12,borderLeft:'1px solid var(--brd)',color:v.exam>=80?'var(--pass)':v.exam<60?'var(--fail)':'var(--tx)'}}>{v.exam}</td>,
+                  <td key={d.id+'l'} className="c" style={{fontFamily:'var(--mono)',fontSize:12,color:v.lab>=80?'var(--pass)':v.lab<40?'var(--fail)':'var(--tx)'}}>{v.lab}</td>
+                ];
+              })}
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div style={{fontSize:14,fontWeight:600,marginBottom:14}}>Exams in the benchmark</div>
+    <div className="course-list">
+      {D.exams.map(e=><div key={e.id} className="course-item coming">
+        <div className="ci-dot" style={{background:DOMAIN_COLORS[e.domain]}}/>
+        <div style={{flex:1}}><div className="ci-name">{e.course} — {e.name}</div><div className="ci-meta">{e.questions} questions · {e.points} pts · {e.year}</div></div>
+        <span className="badge b-coming">Coming</span>
+      </div>)}
+    </div>
+  </div></div>;
+}
+
+/* ══════════════════════════════════════════════
+   VISUAL AID PAGE
+══════════════════════════════════════════════ */
+function VisualAidPage(){
+  const isDark=document.documentElement.hasAttribute('data-dark');
+  const[cur,setCur]=React.useState(0);
+  const C=React.useMemo(()=>({
+    bg:     isDark?'#1a1a18':'#f8f8f5',
+    surf:   isDark?'#121210':'#ffffff',
+    surf2:  isDark?'#222220':'#f2f2ee',
+    brd:    isDark?'#2a2a26':'#e0e0d8',
+    tx:     isDark?'#f0f0e8':'#18181a',
+    tx2:    isDark?'#888880':'#5c5c60',
+    tx3:    isDark?'#484844':'#9c9c9e',
+    blue:   '#2952a3', blueL: isDark?'#1a3060':'#dce8fb',
+    purple: '#7c3aed', purpleL:isDark?'#2d1f5e':'#ede9fe',
+    green:  '#166534', greenL: isDark?'#14311e':'#dcfce7',
+    amber:  '#b45309', amberL: isDark?'#3b2008':'#fef3c7',
+    red:    '#991b1b', redL:   isDark?'#3b0e0e':'#fee2e2',
+    term:   isDark?'#0d0d0b':'#1e1e1e',
+    termBar:isDark?'#2a2a26':'#2d2d2d',
+  }),[isDark]);
+
+  const stages=[
+    {label:"Course material",caption:"It starts with a real university course — the same assignment a student receives. A problem statement, skeleton code, and the course autograder.",
+     svg:<>
+       <rect x="220" y="80" width="240" height="200" rx="10" fill={C.surf2} stroke={C.brd} strokeWidth="1"/>
+       <rect x="235" y="95" width="240" height="200" rx="10" fill={C.surf2} stroke={C.brd} strokeWidth="1"/>
+       <rect x="250" y="110" width="240" height="200" rx="10" fill={C.blueL} stroke={C.blue} strokeWidth="1"/>
+       {[155,172,189,206,223,240,257].map((y,i)=><rect key={y} x="270" y={y} width={i===0?120:i%3===0?80:160} height="7" rx="3" fill={C.brd}/>)}
+       <text x="370" y="145" textAnchor="middle" fontSize="13" fontWeight="500" fill={C.blue}>task.md</text>
+       <text x="370" y="163" textAnchor="middle" fontSize="11" fill={C.tx2}>Problem statement</text>
+       <rect x="290" y="300" width="120" height="32" rx="8" fill={C.greenL} stroke={C.green} strokeWidth=".8"/>
+       <text x="350" y="321" textAnchor="middle" fontSize="12" fontWeight="500" fill={C.green}>autograder</text>
+     </>},
+    {label:"Sandbox starts",caption:"A Docker container spins up with the exact environment the course uses — pinned to a SHA256 digest for reproducibility. Nothing outside is visible to the agent.",
+     svg:<>
+       <rect x="80" y="60" width="520" height="280" rx="20" fill={C.surf2} stroke={C.brd} strokeWidth="1.5" strokeDasharray="8 4"/>
+       <text x="340" y="90" textAnchor="middle" fontSize="13" fontWeight="500" fill={C.tx3}>Docker container</text>
+       <circle cx="340" cy="200" r="36" fill={C.surf} stroke={C.brd} strokeWidth="1"/>
+       <path d="M340,172 A28,28 0 0,1 368,200" fill="none" stroke={C.blue} strokeWidth="3" strokeLinecap="round" style={{transformOrigin:'340px 200px',animation:'spin .8s linear infinite'}}/>
+       <circle cx="340" cy="200" r="8" fill={C.blue} opacity=".2"/>
+       <text x="340" y="206" textAnchor="middle" fontSize="18">🐳</text>
+       <text x="340" y="250" textAnchor="middle" fontSize="12" fill={C.tx2}>starting up…</text>
+       <rect x="200" y="305" width="280" height="22" rx="5" fill={C.surf} stroke={C.brd} strokeWidth=".5"/>
+       <text x="340" y="320" textAnchor="middle" fontSize="10" fontFamily="monospace" fill={C.tx3}>image pinned to sha256:012a018c…</text>
+     </>},
+    {label:"Workspace ready",caption:"Starter files land in /workspace. Protected files are checksummed. The reference solution is locked in /grading/solution — invisible to the agent.",
+     svg:<>
+       <rect x="80" y="40" width="520" height="310" rx="16" fill={C.surf2} stroke={C.brd} strokeWidth="1.2"/>
+       <rect x="110" y="68" width="220" height="240" rx="12" fill={C.surf} stroke={C.blue} strokeWidth="1"/>
+       <rect x="110" y="68" width="220" height="28" rx="12" fill={C.blueL} stroke={C.blue} strokeWidth="1"/>
+       <text x="220" y="86" textAnchor="middle" fontSize="12" fontWeight="500" fill={C.blue}>/workspace</text>
+       {[["camelCaser.c","skeleton — fill in",false],["Makefile","protected",true],["camelCaser.h","protected",true],["task.md","problem statement",false]].map(([name,note,prot],i)=>{
+         const y=114+i*44;
+         return<React.Fragment key={name}>
+           <rect x="122" y={y} width="196" height="32" rx="6" fill={prot?C.amberL:C.surf2} stroke={prot?C.amber:C.brd} strokeWidth=".6"/>
+           <text x="162" y={y+12} fontSize="11" fontFamily="monospace" fontWeight="500" fill={prot?C.amber:C.tx}>{name}</text>
+           <text x="162" y={y+25} fontSize="10" fill={prot?C.amber:C.tx3}>{note}</text>
+         </React.Fragment>;
+       })}
+       <rect x="360" y="68" width="210" height="100" rx="12" fill={C.redL} stroke={C.red} strokeWidth="1"/>
+       <rect x="360" y="68" width="210" height="28" rx="12" fill={C.redL} stroke={C.red} strokeWidth="1"/>
+       <text x="465" y="86" textAnchor="middle" fontSize="11" fontWeight="500" fill={C.red}>/grading/solution</text>
+       <text x="465" y="128" textAnchor="middle" fontSize="22">🔒</text>
+       <text x="465" y="156" textAnchor="middle" fontSize="10" fill={C.red}>not visible to agent</text>
+       <rect x="360" y="186" width="210" height="80" rx="10" fill={C.amberL} stroke={C.amber} strokeWidth=".8"/>
+       <text x="465" y="204" textAnchor="middle" fontSize="11" fontWeight="500" fill={C.amber}>/tmp/checksums</text>
+       <text x="465" y="222" textAnchor="middle" fontSize="10" fontFamily="monospace" fill={C.amber}>Makefile.sha256</text>
+       <text x="465" y="238" textAnchor="middle" fontSize="10" fontFamily="monospace" fill={C.amber}>camelCaser.h.sha256</text>
+       <text x="465" y="254" textAnchor="middle" fontSize="10" fill={C.amber}>protected file hashes</text>
+     </>},
+    {label:"Agent at work",caption:"The agent sees only the problem statement and a bash shell. It reads, writes, compiles, and tests — iterating freely until it's done or the turn limit is reached.",
+     svg:<>
+       <rect x="80" y="40" width="520" height="310" rx="16" fill={C.surf2} stroke={C.brd} strokeWidth="1.2"/>
+       <rect x="100" y="60" width="480" height="230" rx="10" fill={C.term} stroke={C.brd} strokeWidth=".8"/>
+       <rect x="100" y="60" width="480" height="28" rx="10" fill={C.termBar} stroke="none"/>
+       <circle cx="122" cy="74" r="5" fill="#e74c3c"/>
+       <circle cx="140" cy="74" r="5" fill="#f39c12"/>
+       <circle cx="158" cy="74" r="5" fill="#27ae60"/>
+       <text x="340" y="78" textAnchor="middle" fontSize="11" fill="#888">bash — /workspace</text>
+       {[
+         {cmd:"$ cat task.md",out:"# Extreme Edge Cases — implement camelCaser()",y:105,c:'#4ec9b0'},
+         {cmd:"$ ls /workspace",out:"camelCaser.c  camelCaser.h  Makefile  task.md",y:135,c:'#9cdcfe'},
+         {cmd:"$ vim camelCaser.c",out:"[writing implementation…]",y:165,c:'#9cdcfe'},
+         {cmd:"$ make",out:"clang camelCaser.c -o camelCaser ✓",y:195,c:'#9cdcfe'},
+         {cmd:"$ ./camelCaser 'hello world.'",out:'"helloWorld"',y:225,c:'#ce9178'},
+       ].map(({cmd,out,y,c})=><React.Fragment key={y}>
+         <text x="116" y={y} fontSize="11" fontFamily="monospace" fill={c}>{cmd}</text>
+         <text x="130" y={y+16} fontSize="10" fontFamily="monospace" fill="#888">{out}</text>
+       </React.Fragment>)}
+       <rect x="116" y="251" width="6" height="12" fill="#569cd6" style={{animation:'blink .8s step-end infinite'}}/>
+       <rect x="186" y="308" width="308" height="30" rx="8" fill={C.purpleL} stroke={C.purple} strokeWidth=".8"/>
+       <text x="340" y="327" textAnchor="middle" fontSize="11" fontWeight="500" fill={C.purple}>LLM agent · up to 200 turns · bash tool only</text>
+     </>},
+    {label:"Autograder scores",caption:"evaluate.sh verifies protected files are unchanged, then submits the agent's code to the same autograder real students use. Partial credit is possible.",
+     svg:<>
+       <rect x="80" y="40" width="520" height="310" rx="16" fill={C.surf2} stroke={C.brd} strokeWidth="1.2"/>
+       {[{x:105,y:110,color:C.blueL,stroke:C.blue,icon:"💾",label:"agent's code",sub:"/workspace"},
+         {x:285,y:110,color:C.amberL,stroke:C.amber,icon:"🔒",label:"verify files",sub:"sha256 check"},
+         {x:465,y:110,color:C.greenL,stroke:C.green,icon:"⚙️",label:"autograder",sub:"course grader"}].map(n=><React.Fragment key={n.x}>
+         <rect x={n.x} y={n.y} width="110" height="56" rx="10" fill={n.color} stroke={n.stroke} strokeWidth="1"/>
+         <text x={n.x+55} y={n.y+20} textAnchor="middle" fontSize="16">{n.icon}</text>
+         <text x={n.x+55} y={n.y+36} textAnchor="middle" fontSize="11" fontWeight="500" fill={n.stroke}>{n.label}</text>
+         <text x={n.x+55} y={n.y+50} textAnchor="middle" fontSize="10" fill={n.stroke}>{n.sub}</text>
+       </React.Fragment>)}
+       <line x1="215" y1="138" x2="280" y2="138" stroke={C.brd} strokeWidth="1.5" markerEnd="url(#va-arr)" strokeDasharray="5 4" style={{animation:'flow 1s linear infinite'}}/>
+       <line x1="395" y1="138" x2="460" y2="138" stroke={C.brd} strokeWidth="1.5" markerEnd="url(#va-arr)" strokeDasharray="5 4" style={{animation:'flow 1s linear infinite'}}/>
+       <defs><marker id="va-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke={C.brd} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker></defs>
+       <rect x="105" y="198" width="470" height="130" rx="10" fill={C.term} stroke={C.brd} strokeWidth=".8"/>
+       <text x="120" y="216" fontSize="10" fontFamily="monospace" fill="#888">grader output</text>
+       {[
+         {t:'CS241GraderOutput {"name":"Basic Test","points":1.0,"max":1.0}',c:'#4ec9b0'},
+         {t:'CS241GraderOutput {"name":"Edge Cases","points":3.0,"max":3.0}',c:'#4ec9b0'},
+         {t:'CS241GraderOutput {"name":"Memory Test","points":2.0,"max":2.0}',c:'#4ec9b0'},
+         {t:'Across all test cases earned 21.0 out of 21.0 points.',c:'#ce9178'},
+       ].map(({t,c},i)=><text key={i} x="120" y={232+i*19} fontSize="9.5" fontFamily="monospace" fill={c}>{t}</text>)}
+     </>},
+    {label:"Result recorded",caption:"Score, agent trajectory, and failure flags are saved. Repeat across models to measure the know–build gap — how much better LLMs score on exams than on labs.",
+     svg:<>
+       <rect x="90" y="50" width="230" height="290" rx="14" fill={C.surf} stroke={C.green} strokeWidth="1.2"/>
+       <rect x="90" y="50" width="230" height="36" rx="14" fill={C.greenL} stroke={C.green} strokeWidth="1.2"/>
+       <text x="205" y="74" textAnchor="middle" fontSize="14" fontWeight="500" fill={C.green}>PASS</text>
+       <text x="205" y="110" textAnchor="middle" fontSize="18" fontWeight="500" fill={C.tx}>21 / 21 points</text>
+       <text x="205" y="132" textAnchor="middle" fontSize="11" fill={C.tx2}>Extreme Edge Cases</text>
+       {[["Basic test",1,1],["Edge cases",3,3],["Memory",2,2],["Unit tests",8,8],["Valgrind",2,2],["Scoring",5,5]].map(([name,pts,max],i)=>{
+         const y=154+i*26;
+         return<React.Fragment key={name}>
+           <text x="108" y={y+9} fontSize="10" fill={C.tx2}>{name}</text>
+           <rect x="190" y={y} width="110" height="16" rx="4" fill={C.surf2}/>
+           <rect x="190" y={y} width={Math.round(110*pts/max)} height="16" rx="4" fill={C.green} opacity=".7"/>
+           <text x="305" y={y+11} fontSize="10" fontFamily="monospace" fill={C.green}>{pts}/{max}</text>
+         </React.Fragment>;
+       })}
+       <rect x="360" y="50" width="230" height="290" rx="14" fill={C.surf} stroke={C.brd} strokeWidth="1"/>
+       <text x="475" y="80" textAnchor="middle" fontSize="12" fontWeight="500" fill={C.tx}>know–build gap</text>
+       <text x="475" y="98" textAnchor="middle" fontSize="10" fill={C.tx3}>exam vs lab pass rate</text>
+       {[["Sonnet 4.6",82.9,81.0],["GPT-5.2",80.7,58.5],["Haiku 4.5",72.0,49.0],["GPT-5 Mini",58.1,53.1]].map(([name,exam,lab],i)=>{
+         const y=118+i*46; const bw=70;
+         const gap=Math.round(exam-lab);
+         return<React.Fragment key={name}>
+           <text x="375" y={y+8} fontSize="10" fill={C.tx2}>{name}</text>
+           <rect x="375" y={y+14} width={bw*(exam/100)} height="10" rx="3" fill="#2952a3" opacity=".85"/>
+           <text x="369" y={y+22} fontSize="9" fill={C.tx3} textAnchor="end">E</text>
+           <rect x="375" y={y+26} width={bw*(lab/100)} height="10" rx="3" fill="#e85d04" opacity=".85"/>
+           <text x="369" y={y+34} fontSize="9" fill={C.tx3} textAnchor="end">L</text>
+           <text x="450" y={y+28} fontSize="10" fontWeight="500" fill={gap>10?C.red:C.tx3}>+{gap}pp</text>
+         </React.Fragment>;
+       })}
+       <rect x="375" y="312" width="10" height="8" rx="2" fill="#2952a3"/>
+       <text x="389" y="319" fontSize="10" fill={C.tx3}>exam</text>
+       <rect x="425" y="312" width="10" height="8" rx="2" fill="#e85d04"/>
+       <text x="439" y="319" fontSize="10" fill={C.tx3}>lab</text>
+     </>},
+  ];
+
+  const s=stages[cur];
+  return<div className="wrap"><div className="sec">
+    <div className="sec-head"><div className="sec-title">How it works</div><div className="sec-sub">click through each stage</div></div>
+
+    {/* dots */}
+    <div style={{display:'flex',gap:6,justifyContent:'center',marginBottom:'1.5rem'}}>
+      {stages.map((_,i)=><div key={i} onClick={()=>setCur(i)} style={{width:i===cur?24:8,height:8,borderRadius:i===cur?4:50,background:i===cur?'var(--tx)':'var(--brd2)',cursor:'pointer',transition:'all .2s'}}/>)}
+    </div>
+
+    {/* svg stage */}
+    <div className="card" style={{padding:0,overflow:'hidden',marginBottom:20}}>
+      <svg width="100%" viewBox="0 0 680 380" style={{display:'block'}}>
+        <style>{`@keyframes spin{to{transform:rotate(360deg)}} @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}} @keyframes flow{to{stroke-dashoffset:-22}}`}</style>
+        {s.svg}
+      </svg>
+    </div>
+
+    {/* caption */}
+    <div style={{textAlign:'center',marginBottom:'1.5rem'}}>
+      <div style={{fontSize:11,fontWeight:700,letterSpacing:'.8px',textTransform:'uppercase',color:'var(--tx3)',marginBottom:6}}>{s.label}</div>
+      <div style={{fontSize:14,color:'var(--tx2)',lineHeight:1.7,maxWidth:520,margin:'0 auto'}}>{s.caption}</div>
+    </div>
+
+    {/* nav */}
+    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+      <button className="btn btn-g" onClick={()=>setCur(c=>c-1)} disabled={cur===0} style={{opacity:cur===0?.3:1}}>
+        <i className="ti ti-arrow-left" aria-hidden="true"/>Back
+      </button>
+      <span style={{fontSize:12,color:'var(--tx3)'}}>{cur+1} / {stages.length}</span>
+      <button className="btn btn-g" onClick={()=>setCur(c=>c+1)} disabled={cur===stages.length-1} style={{opacity:cur===stages.length-1?.3:1}}>
+        Next<i className="ti ti-arrow-right" aria-hidden="true"/>
+      </button>
+    </div>
+  </div></div>;
+}
+
+/* ══════════════════════════════════════════════
+   APP
+══════════════════════════════════════════════ */
+function App(){
+  const[route,go]=useHash('home');
+  const[dark,setDark]=useState(()=>{
+    try{const s=localStorage.getItem('seb_dk');if(s!==null)return s==='1';}catch(e){}
+    return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+  useEffect(()=>{document.documentElement.toggleAttribute('data-dark',dark);try{localStorage.setItem('seb_dk',dark?'1':'0');}catch(e){};},[dark]);
+  const nav=[{id:'home',l:'Home'},{id:'syslab',l:'SysLab'},{id:'sysexam',l:'SysExam'},{id:'visual',l:'How it works'}];
+  return<>
+    <nav className="nav">
+      <div className="nv">
+        <div className="brand" onClick={()=>go('home')}>
+          <div className="brand-logo">SE</div>
+          <span className="brand-name">SysEduBench</span>
+        </div>
+        <div style={{display:'flex',alignItems:'center'}}>
+          <div className="nav-links">{nav.map(l=><button key={l.id} className={'nl'+(route===l.id?' on':'')} onClick={()=>go(l.id)}>{l.l}</button>)}</div>
+          <a className="nav-gh" href={D.paper.github} target="_blank"><i className="ti ti-brand-github" aria-hidden="true"/>GitHub</a>
+          <button className="tbtn" onClick={()=>setDark(d=>!d)} title="Toggle theme"><i className={'ti ti-'+(dark?'sun':'moon')} aria-hidden="true"/></button>
+        </div>
+      </div>
+    </nav>
+    {route==='home'   &&<HomePage go={go}/>}
+    {route==='syslab' &&<SysLabPage dark={dark}/>}
+    {route==='sysexam'&&<SysExamPage/>}
+    {route==='visual' &&<VisualAidPage/>}
+    <footer><div className="wrap">SysEduBench · <a href="https://github.com/sys-intelligence" target="_blank">sys-intelligence</a> · <a href={D.paper.arxiv_url} target="_blank">Paper</a> · <a href={D.paper.github} target="_blank">Code</a></div></footer>
+  </>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
