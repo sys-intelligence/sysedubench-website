@@ -984,7 +984,7 @@ function VisualAidPage(){
     </div>
 
     {/* nav */}
-    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:64}}>
       <button className="btn btn-g" onClick={()=>setCur(c=>c-1)} disabled={cur===0} style={{opacity:cur===0?.3:1}}>
         <i className="ti ti-arrow-left" aria-hidden="true"/>Back
       </button>
@@ -993,6 +993,112 @@ function VisualAidPage(){
         Next<i className="ti ti-arrow-right" aria-hidden="true"/>
       </button>
     </div>
+
+    {/* ── WHY THIS MATTERS ── */}
+    <hr className="divider" style={{marginBottom:56}}/>
+    <div style={{marginBottom:56}}>
+      <div style={{fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',color:'var(--acc)',marginBottom:12,display:'flex',alignItems:'center',gap:8}}>
+        <div style={{width:18,height:1.5,background:'var(--acc)'}}/>Why this matters
+      </div>
+      <div style={{fontFamily:'var(--serif)',fontSize:'clamp(22px,3vw,34px)',fontWeight:500,letterSpacing:'-0.8px',lineHeight:1.15,marginBottom:24,color:'var(--tx)'}}>
+        Course redesign should be evidence-based,<br/>not panic-based.
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:14}}>
+        {[
+          {icon:'ti-robot',     color:'rgba(41,82,163,.1)', tc:'var(--acc)',
+           title:'AI agents can now complete parts of real course assignments.',
+           body:'Not all tasks and not all the time — but enough that instructors need visibility into which materials are exposed and to what degree.'},
+          {icon:'ti-eye',       color:'rgba(124,58,237,.1)',tc:'#7c3aed',
+           title:'Instructors need to know what is actually happening.',
+           body:'Intuition and anecdote are not enough. SysEduBench provides empirical evidence: which assignments, which models, under what conditions.'},
+          {icon:'ti-chart-bar', color:'rgba(22,101,52,.1)', tc:'#166534',
+           title:'Evidence should drive curriculum decisions.',
+           body:'Knowing that a task is 95% solvable by a student-accessible model is a different problem than knowing it is 30% solvable by a frontier system. Both require different responses.'},
+          {icon:'ti-shield',    color:'rgba(220,38,38,.1)', tc:'#991b1b',
+           title:'Not all exposure is equal — and not all exposure is bad.',
+           body:'SysEduBench distinguishes between AI as a tutor that supports learning and AI as a solver that bypasses assessment. The goal is informed course design, not fear.'},
+        ].map(p=><div key={p.title} style={{background:'var(--surf)',border:'1px solid var(--brd)',borderRadius:'var(--rf)',padding:'22px 22px 20px'}}>
+          <div style={{width:32,height:32,borderRadius:7,background:p.color,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:p.tc,marginBottom:12}}>
+            <i className={'ti '+p.icon} aria-hidden="true"/>
+          </div>
+          <div style={{fontSize:13,fontWeight:600,color:'var(--tx)',marginBottom:6,lineHeight:1.4}}>{p.title}</div>
+          <div style={{fontSize:12,color:'var(--tx2)',lineHeight:1.68}}>{p.body}</div>
+        </div>)}
+      </div>
+    </div>
+
+    {/* ── HOW WE DO IT ── */}
+    <hr className="divider" style={{marginBottom:56}}/>
+    <div style={{marginBottom:56}}>
+      <div style={{fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',color:'var(--acc)',marginBottom:12,display:'flex',alignItems:'center',gap:8}}>
+        <div style={{width:18,height:1.5,background:'var(--acc)'}}/>How we do it
+      </div>
+      <div style={{fontFamily:'var(--serif)',fontSize:'clamp(20px,2.8vw,30px)',fontWeight:500,letterSpacing:'-0.6px',marginBottom:8,color:'var(--tx)'}}>
+        Use AI to test how AI affects your course.
+      </div>
+      <p style={{fontSize:14,color:'var(--tx2)',lineHeight:1.75,maxWidth:560,marginBottom:32}}>
+        Three steps. The same grader your students face. No rubric approximations.
+      </p>
+      <div style={{display:'flex',flexDirection:'column',gap:0}}>
+        {[
+          {num:'01', title:'Run AI agents on real course assignments.',
+           body:'Each assignment is packaged in a sandboxed Docker container with the original starter code and problem statement. An AI agent gets only a bash shell and must write code that passes the autograder — exactly what students must do.'},
+          {num:'02', title:'Measure whether they solve tasks, how they solve them, and where they fail.',
+           body:'We record the final score, the number of interaction turns, token usage, and full agent trajectories. Failures are categorized: flawed diagnosis, unsafe code, conceptual misunderstanding, scope mismatch, and more.'},
+          {num:'03', title:'Report course-level AI exposure so instructors can act.',
+           body:'Results are broken down by task, model, and resource tier — so instructors can see not just whether AI can solve their assignments, but which model a student could plausibly use, and how reliably.'},
+        ].map((step,i,arr)=><div key={step.num} style={{display:'flex',gap:20,paddingBottom:i<arr.length-1?28:0,borderLeft:'2px solid var(--brd)',paddingLeft:24,marginLeft:16,position:'relative'}}>
+          <div style={{position:'absolute',left:-13,top:0,width:24,height:24,borderRadius:'50%',background:'var(--acc)',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:700,fontFamily:'var(--mono)',flexShrink:0}}>{step.num}</div>
+          <div style={{paddingTop:2}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--tx)',marginBottom:6}}>{step.title}</div>
+            <div style={{fontSize:13,color:'var(--tx2)',lineHeight:1.72}}>{step.body}</div>
+          </div>
+        </div>)}
+      </div>
+    </div>
+
+    {/* ── WHAT INSTRUCTORS CAN DO ── */}
+    <hr className="divider" style={{marginBottom:56}}/>
+    <div style={{marginBottom:8}}>
+      <div style={{fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',color:'var(--acc)',marginBottom:12,display:'flex',alignItems:'center',gap:8}}>
+        <div style={{width:18,height:1.5,background:'var(--acc)'}}/>What instructors can do with this
+      </div>
+      <div style={{fontFamily:'var(--serif)',fontSize:'clamp(20px,2.8vw,30px)',fontWeight:500,letterSpacing:'-0.6px',marginBottom:8,color:'var(--tx)'}}>
+        Evidence in hand. Now what?
+      </div>
+      <p style={{fontSize:14,color:'var(--tx2)',lineHeight:1.75,maxWidth:560,marginBottom:28}}>
+        SysEduBench results are a starting point for informed action — not a verdict on your course.
+      </p>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:12}}>
+        {[
+          {icon:'ti-alert-triangle',tc:'#991b1b',bg:'rgba(220,38,38,.07)',
+           label:'Identify exposed assignments',
+           desc:'Find which tasks are already solvable by student-accessible models and prioritize them for review.'},
+          {icon:'ti-pencil',tc:'var(--acc)',bg:'var(--acc-soft)',
+           label:'Redesign vulnerable tasks',
+           desc:'Add open-ended components, system-specific constraints, or integration challenges that require genuine understanding.'},
+          {icon:'ti-microphone',tc:'#7c3aed',bg:'rgba(124,58,237,.08)',
+           label:'Add oral checks or reflections',
+           desc:'Supplement autograded assignments with verbal justification or design rationale that AI cannot complete on a student\'s behalf.'},
+          {icon:'ti-file-text',tc:'#166534',bg:'rgba(22,101,52,.08)',
+           label:'Improve specs and graders',
+           desc:'Agent failures often reveal ambiguous instructions, missing constraints, or autograder loopholes — useful signals even beyond AI concerns.'},
+          {icon:'ti-shield-check',tc:'#92400e',bg:'rgba(146,64,14,.08)',
+           label:'Create AI-aware course policies',
+           desc:'Know exactly which tools students can plausibly use before writing policies — so rules are grounded in what is actually possible.'},
+          {icon:'ti-arrows-exchange',tc:'#2952a3',bg:'rgba(41,82,163,.08)',
+           label:'Distinguish tutor from solver',
+           desc:'Use the data to decide where AI should be allowed as a learning aid versus where unsupervised AI completion undermines the purpose of the assessment.'},
+        ].map(a=><div key={a.label} style={{background:a.bg,border:'1px solid',borderColor:a.tc+'33',borderRadius:'var(--rf)',padding:'16px 18px',display:'flex',gap:12,alignItems:'flex-start'}}>
+          <div style={{fontSize:16,color:a.tc,flexShrink:0,marginTop:1}}><i className={'ti '+a.icon} aria-hidden="true"/></div>
+          <div>
+            <div style={{fontSize:13,fontWeight:600,color:'var(--tx)',marginBottom:4}}>{a.label}</div>
+            <div style={{fontSize:12,color:'var(--tx2)',lineHeight:1.65}}>{a.desc}</div>
+          </div>
+        </div>)}
+      </div>
+    </div>
+
   </div></div>;
 }
 
