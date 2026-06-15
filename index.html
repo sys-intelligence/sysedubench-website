@@ -62,7 +62,15 @@ a{color:inherit;text-decoration:none;}button{font-family:inherit;cursor:pointer;
 .wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
 
 /* ── HOME: QUESTION SECTION ── */
-.question-section{padding:80px 0 72px;}
+.qs-slide-wrap{position:relative;min-height:240px;}
+.qs-slide{position:absolute;top:0;left:0;width:100%;opacity:0;transform:translateY(12px);transition:opacity .7s ease,transform .7s ease;pointer-events:none;}
+.qs-slide.active{opacity:1;transform:translateY(0);pointer-events:auto;position:relative;}
+.qs-main{font-family:var(--serif);font-size:clamp(28px,3.8vw,48px);font-weight:500;letter-spacing:-1.2px;line-height:1.1;color:var(--tx);margin-bottom:16px;}
+.qs-main em{font-style:italic;color:var(--acc);}
+.qs-sub{font-size:15px;color:var(--tx2);line-height:1.75;max-width:520px;}
+.slide-dots{display:flex;gap:6px;margin-top:28px;margin-bottom:32px;}
+.slide-dot{width:6px;height:6px;border-radius:50%;background:var(--brd2);cursor:pointer;transition:all .3s;border:none;padding:0;}
+.slide-dot.on{width:20px;border-radius:3px;background:var(--acc);}
 .qs-inner{max-width:720px;}
 .qs-eyebrow{font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--acc);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
 .qs-line{width:20px;height:1.5px;background:var(--acc);}
@@ -252,6 +260,49 @@ function hmText(val,dark){
   return dark?'#4ade80':'#14532d';
 }
 
+const SLIDES=[
+  {
+    headline:<>AI broke <em>systems education.</em><br/>Let's fix it.</>,
+    sub:"Students are submitting AI-generated code. Instructors don't know which assignments are vulnerable and which still require real understanding. SysEduBench was built to answer that question — rigorously.",
+  },
+  {
+    headline:<>Which of your course<br/>assignments can AI complete?</>,
+    sub:"Not hypothetically. We run AI agents on real university systems assignments, grade them with the course autograder, and show you the results — task by task, model by model.",
+  },
+  {
+    headline:<>Course materials for the AI era<br/>need a new kind of audit.</>,
+    sub:"The same assignments that challenged students for years may now be solvable in minutes. SysEduBench gives instructors a systematic way to find out — before their students do.",
+  },
+  {
+    headline:<>Know before<br/>your students do.</>,
+    sub:"AI tools are already in your classroom. SysEduBench tells you which assignments are exposed, which are resilient, and where meaningful human work still lives.",
+  },
+  {
+    headline:<>A vulnerability scanner<br/>for your course assignments.</>,
+    sub:"Every task. Every model. Graded by the same autograder your students face. SysEduBench surfaces the gaps so instructors can redesign, strengthen, or adapt their courses.",
+  },
+];
+
+function HeroSlideshow(){
+  const[cur,setCur]=useState(0);
+  useEffect(()=>{
+    const id=setInterval(()=>setCur(c=>(c+1)%SLIDES.length),4500);
+    return()=>clearInterval(id);
+  },[]);
+  const s=SLIDES[cur];
+  return<div>
+    <div className="qs-slide-wrap">
+      {SLIDES.map((sl,i)=><div key={i} className={'qs-slide'+(i===cur?' active':'')}>
+        <h1 className="qs-main">{sl.headline}</h1>
+        <p className="qs-sub">{sl.sub}</p>
+      </div>)}
+    </div>
+    <div className="slide-dots">
+      {SLIDES.map((_,i)=><button key={i} className={'slide-dot'+(i===cur?' on':'')} onClick={()=>setCur(i)} aria-label={`Slide ${i+1}`}/>)}
+    </div>
+  </div>;
+}
+
 /* ══════════════════════════════════════════════
    HOME PAGE
 ══════════════════════════════════════════════ */
@@ -259,26 +310,10 @@ function HomePage({go}){
   return<>
     {/* THE QUESTION */}
     <div className="wrap">
-      <div className="question-section">
+      <div className="question-section" style={{padding:'88px 0 64px'}}>
         <div className="qs-inner">
-          <div className="qs-eyebrow"><div className="qs-line"/>Systems education in the AI era</div>
-          <h1 className="qs-question">
-            What can AI agents actually do<br/>
-            in a systems course?
-          </h1>
-          <p className="qs-body">
-            AI coding tools are already in every classroom. Students use them.
-            Instructors worry about them. But we lack systematic, grounded evidence
-            of what these tools can actually accomplish on the real tasks that define
-            systems education — not toy problems, but the same assignments
-            graded by the same autograders used for students.
-          </p>
-          <p className="qs-body" style={{marginTop:-16}}>
-            SysEduBench is an answer to that question. It turns university systems
-            course materials — exams and programming labs — into a rigorous,
-            reproducible benchmark. The same graders. The same tasks. A level playing
-            field for AI and humans.
-          </p>
+          <div className="qs-eyebrow"><div className="qs-line"/>Systems programming · OS · Distributed systems · Databases</div>
+          <HeroSlideshow/>
           <div className="qs-btns">
             <button className="btn btn-p" onClick={()=>go('syslab')}><i className="ti ti-flask" aria-hidden="true"/>Explore lab results</button>
             <button className="btn btn-g" onClick={()=>go('sysexam')}><i className="ti ti-file-description" aria-hidden="true"/>Exam results</button>
