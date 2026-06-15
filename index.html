@@ -155,7 +155,7 @@ td.r{text-align:right;}td.c{text-align:center;}
 .prog{display:flex;align-items:center;gap:8px;justify-content:flex-end;}
 .pbar{width:80px;height:4px;background:var(--surf3);border-radius:100px;overflow:hidden;flex-shrink:0;}
 .pfill{height:100%;border-radius:100px;background:var(--acc);}
-.pfill.hi{background:var(--pass);}
+.pfill.hi{background:var(--fail);}
 .pval{font-family:var(--mono);font-size:11px;color:var(--tx2);min-width:36px;text-align:right;}
 .hm-wrap{overflow-x:auto;}
 .hm{border-collapse:collapse;min-width:640px;width:100%;}
@@ -277,20 +277,23 @@ function useHash(def){
   return[v,id=>{location.hash='#/'+id;}];
 }
 
+// Instructor-facing color logic:
+// HIGH score = RED = this assignment is VULNERABLE to AI
+// LOW score  = GREEN = this assignment still requires human effort
 function hmColor(val,dark){
   if(val===null||val===undefined)return dark?'#1a1a18':'#f2f2ee';
-  if(val>=.95)return dark?'#14532d':'#dcfce7';
-  if(val>=.75)return dark?'#166534':'#bbf7d0';
-  if(val>=.5) return dark?'#1a3a2a':'#d1fae5';
-  if(val>=.25)return dark?'#1c2a1a':'#ecfdf5';
-  return dark?'#2a1a1a':'#fef2f2';
+  if(val>=.95)return dark?'#3b0e0e':'#fee2e2';  // deep red — fully exposed
+  if(val>=.75)return dark?'#5c1a1a':'#fecaca';  // red
+  if(val>=.5) return dark?'#7c2d12':'#fed7aa';  // amber-red
+  if(val>=.25)return dark?'#1c2a1a':'#dcfce7';  // light green — partial resistance
+  return dark?'#14311e':'#bbf7d0';               // green — resistant
 }
 function hmText(val,dark){
   if(val===null||val===undefined)return dark?'#484844':'#c0c0b8';
-  if(val>=.75)return dark?'#86efac':'#14532d';
-  if(val>=.5) return dark?'#4ade80':'#166534';
-  if(val>=.25)return dark?'#bbf7d0':'#15803d';
-  return dark?'#6b7280':'#9ca3af';
+  if(val>=.75)return dark?'#fca5a5':'#991b1b';
+  if(val>=.5) return dark?'#fdba74':'#9a3412';
+  if(val>=.25)return dark?'#86efac':'#166534';
+  return dark?'#4ade80':'#14532d';
 }
 
 /* ══════════════════════════════════════════════
@@ -595,13 +598,13 @@ function CourseDetail({course,dark}){
                     <div className="pbar">
                       <div className="pfill" style={{
                         width:pct+'%',
-                        background:pct===100?'var(--pass)':pct>=60?'var(--acc)':'var(--fail)'
+                        background:pct===100?'var(--fail)':pct>=60?'#f97316':'var(--pass)'
                       }}/>
                     </div>
                     <span style={{
                       fontFamily:'var(--mono)',fontSize:12,fontWeight:600,
                       minWidth:56,textAlign:'right',
-                      color:pct===100?'var(--pass)':pct>=60?'var(--tx)':'var(--fail)'
+                      color:pct===100?'var(--fail)':pct>=60?'#c2410c':'var(--pass)'
                     }}>{bestRaw} / {t.max_points}</span>
                   </div>
                   :<span style={{color:'var(--tx3)',fontSize:12}}>—</span>}

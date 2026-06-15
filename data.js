@@ -66,6 +66,24 @@ window.SEB_DATA = {
       ],
       tiers: [
         {
+          id:"student", label:"Student friendly",
+          desc:"Lumen (UIUC) free-access models · 200 max turns · 3 runs per task · scorer errors excluded from heatmap",
+          models:[
+            { id:"qwen3-35b-a3b-s",   name:"Qwen3.6-35b-a3b",          org:"Lumen (UIUC)", harness:"ReAct",
+              n:3, mean_score:0.56, task_success:0.375, avg_turns:80, avg_tokens:null,
+              per_task:{mp1:1.00, mp2:1.00, mp3:0.72, mp4:0.08, mp5:null, mp6:null, mp7:null, mp8:null} },
+            { id:"gemma-4-31b-s",     name:"Gemma-4-31b-it",            org:"Lumen (UIUC)", harness:"ReAct",
+              n:3, mean_score:0.72, task_success:0.375, avg_turns:21, avg_tokens:null,
+              per_task:{mp1:null, mp2:1.00, mp3:0.38, mp4:0.86, mp5:0.64, mp6:null, mp7:null, mp8:null} },
+            { id:"qwen3-coder-s",     name:"Qwen3-Coder-Next",          org:"Lumen (UIUC)", harness:"ReAct",
+              n:3, mean_score:0.42, task_success:0.000, avg_turns:96, avg_tokens:null,
+              per_task:{mp1:0.62, mp2:null, mp3:0.70, mp4:0.04, mp5:0.31, mp6:null, mp7:null, mp8:null} },
+            { id:"nemotron-s",        name:"Nemotron-3-Super-120b-a12b", org:"Lumen (UIUC)", harness:"ReAct",
+              n:3, mean_score:0.34, task_success:0.125, avg_turns:30, avg_tokens:null,
+              per_task:{mp1:0.05, mp2:0.93, mp3:0.17, mp4:0.25, mp5:0.30, mp6:null, mp7:null, mp8:null} },
+          ]
+        },
+        {
           id:"common", label:"Common resources",
           desc:"Models & budgets realistically available to students · 100 max turns · 3 runs per task",
           models:[
