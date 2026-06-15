@@ -93,14 +93,20 @@ a{color:inherit;text-decoration:none;}button{font-family:inherit;cursor:pointer;
 
 /* ── HOME: FOR WHOM ── */
 .for-whom{padding:64px 0;}
-.fw-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;}
+.fw-primary{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rf);padding:32px 36px;margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;}
+@media(max-width:680px){.fw-primary{grid-template-columns:1fr;gap:20px;}}
+.fw-primary-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;background:var(--acc-soft);color:var(--acc);border:1px solid var(--acc-border);padding:3px 10px;border-radius:100px;margin-bottom:14px;}
+.fw-primary-title{font-family:var(--serif);font-size:22px;font-weight:500;letter-spacing:-.4px;margin-bottom:10px;color:var(--tx);}
+.fw-primary-body{font-size:13.5px;color:var(--tx2);line-height:1.75;}
+.fw-primary-list{display:flex;flex-direction:column;gap:10px;padding-top:4px;}
+.fw-primary-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--tx2);line-height:1.6;}
+.fw-primary-bullet{width:6px;height:6px;border-radius:50%;background:var(--acc);flex-shrink:0;margin-top:6px;}
+.fw-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:0;}
 @media(max-width:680px){.fw-grid{grid-template-columns:1fr;}}
-.fw-card{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rf);padding:28px 28px 24px;cursor:pointer;transition:all .2s;}
-.fw-card:hover{border-color:var(--acc);transform:translateY(-2px);}
-.fw-card-icon{font-size:24px;color:var(--acc);margin-bottom:14px;}
-.fw-card-title{font-size:16px;font-weight:600;margin-bottom:8px;}
-.fw-card-body{font-size:13px;color:var(--tx2);line-height:1.72;margin-bottom:16px;}
-.fw-card-cta{font-size:13px;font-weight:600;color:var(--acc);display:flex;align-items:center;gap:4px;}
+.fw-card{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rf);padding:24px 26px;}
+.fw-card-icon{font-size:20px;color:var(--tx2);margin-bottom:12px;}
+.fw-card-title{font-size:14px;font-weight:600;margin-bottom:7px;color:var(--tx);}
+.fw-card-body{font-size:13px;color:var(--tx2);line-height:1.72;}
 
 /* ── HOME: TWO LENSES ── */
 .lenses{padding:64px 0;background:var(--surf);border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);}
@@ -202,6 +208,28 @@ td.r{text-align:right;}td.c{text-align:center;}
 .gap-fill-exam{height:100%;border-radius:100px;background:#2952a3;}
 .gap-fill-lab{height:100%;border-radius:100px;background:#e85d04;}
 .cite-pre{background:var(--surf2);border:1px solid var(--brd);border-radius:8px;padding:16px 18px;font-family:var(--mono);font-size:12px;color:var(--tx2);line-height:1.9;white-space:pre-wrap;word-break:break-word;margin-top:12px;}
+/* GLOSSARY MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px);}
+.modal{background:var(--surf);border:1px solid var(--brd);border-radius:16px;width:100%;max-width:640px;max-height:88vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.18);}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--brd);position:sticky;top:0;background:var(--surf);z-index:1;border-radius:16px 16px 0 0;}
+.modal-title{font-size:16px;font-weight:600;color:var(--tx);}
+.modal-close{width:30px;height:30px;border-radius:6px;background:var(--surf2);border:none;color:var(--tx2);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.modal-close:hover{color:var(--tx);}
+.modal-body{padding:24px;}
+.modal-section{margin-bottom:28px;}
+.modal-section:last-child{margin-bottom:0;}
+.modal-section-title{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--tx3);margin-bottom:14px;}
+.modal-term{display:flex;flex-direction:column;gap:2px;padding:10px 0;border-bottom:1px solid var(--brd);}
+.modal-term:last-child{border-bottom:none;}
+.modal-term-name{font-size:13px;font-weight:600;color:var(--tx);font-family:var(--mono);}
+.modal-term-def{font-size:13px;color:var(--tx2);line-height:1.65;}
+.modal-nuance{background:var(--warn-bg);border:1px solid var(--warn);border-radius:var(--r);padding:14px 16px;margin-top:4px;}
+.modal-nuance-title{font-size:12px;font-weight:700;color:var(--warn);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.modal-nuance-body{font-size:12px;color:var(--tx2);line-height:1.65;}
+.legend-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--brd);font-size:13px;}
+.legend-row:last-child{border-bottom:none;}
+.legend-swatch{width:36px;height:16px;border-radius:4px;flex-shrink:0;}
+
 footer{border-top:1px solid var(--brd);padding:28px;text-align:center;font-size:13px;color:var(--tx3);}
 footer a{color:var(--acc);}
 </style>
@@ -374,18 +402,44 @@ function HomePage({go}){
     <div className="wrap">
       <div className="for-whom">
         <div className="sec-head"><div className="sec-title">Who is it for?</div></div>
+
+        {/* PRIMARY — Instructors, full width, two-column inside */}
+        <div className="fw-primary">
+          <div>
+            <div className="fw-primary-badge"><i className="ti ti-chalkboard" aria-hidden="true"/>Primary audience</div>
+            <div className="fw-primary-title">Instructors who want to know how AI-resilient their course is</div>
+            <div className="fw-primary-body">
+              AI agents are already being used on your assignments. SysEduBench tells you which tasks they can complete, how reliably, and under what resource constraints — so you can make informed decisions about your course design.
+            </div>
+          </div>
+          <div className="fw-primary-list">
+            {[
+              "See which assignments AI agents can solve — task by task, model by model",
+              "Understand the gap between what AI knows conceptually and what it can actually build",
+              "Identify which tasks are vulnerable to automation and which still demand genuine systems understanding",
+              "Compare how student-accessible models perform versus frontier research deployments",
+            ].map(t=><div className="fw-primary-item" key={t}>
+              <div className="fw-primary-bullet"/>
+              <span>{t}</span>
+            </div>)}
+          </div>
+        </div>
+
+        {/* SECONDARY — Course staff + Researchers */}
         <div className="fw-grid">
-          <div className="fw-card" onClick={()=>go('syslab')}>
+          <div className="fw-card">
+            <div className="fw-card-icon"><i className="ti ti-tool" aria-hidden="true"/></div>
+            <div className="fw-card-title">Course staff & TAs</div>
+            <div className="fw-card-body">
+              Agent failures often reveal fragile specs, hidden assumptions, and loopholes in autograders before students find them. SysEduBench gives course staff a systematic way to find the assignments that need redesigning — not just the ones that are "too easy."
+            </div>
+          </div>
+          <div className="fw-card">
             <div className="fw-card-icon"><i className="ti ti-microscope" aria-hidden="true"/></div>
             <div className="fw-card-title">Researchers</div>
-            <div className="fw-card-body">A rigorous, reproducible benchmark for measuring AI progress on systems-level tasks. Compare models, study failure patterns, and track capability over time against tasks grounded in real engineering practice.</div>
-            <div className="fw-card-cta">View results <i className="ti ti-arrow-right" aria-hidden="true"/></div>
-          </div>
-          <div className="fw-card" onClick={()=>go('syslab')}>
-            <div className="fw-card-icon"><i className="ti ti-chalkboard" aria-hidden="true"/></div>
-            <div className="fw-card-title">Educators</div>
-            <div className="fw-card-body">A tool to audit your own assignments. See not just whether AI can complete a task, but how it approaches it — which parts it handles easily, which it struggles with, and where meaningful human work remains.</div>
-            <div className="fw-card-cta">Explore tasks <i className="ti ti-arrow-right" aria-hidden="true"/></div>
+            <div className="fw-card-body">
+              A rigorous benchmark grounded in real course materials, real autograders, and real grading criteria. Study how AI agents perform on systems-level tasks, compare model capabilities, and analyze failure patterns — without the noise of synthetic benchmarks.
+            </div>
           </div>
         </div>
       </div>
@@ -428,11 +482,117 @@ function HomePage({go}){
 /* ══════════════════════════════════════════════
    SYSLAB PAGE
 ══════════════════════════════════════════════ */
+function GlossaryModal({onClose}){
+  useEffect(()=>{
+    const esc=e=>{if(e.key==='Escape')onClose();};
+    document.addEventListener('keydown',esc);
+    return()=>document.removeEventListener('keydown',esc);
+  },[]);
+  return ReactDOM.createPortal(
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal" onClick={e=>e.stopPropagation()}>
+        <div className="modal-head">
+          <span className="modal-title">How to read this page</span>
+          <button className="modal-close" onClick={onClose} aria-label="Close"><i className="ti ti-x" aria-hidden="true"/></button>
+        </div>
+        <div className="modal-body">
+
+          {/* WHAT THIS PAGE SHOWS */}
+          <div className="modal-section">
+            <div className="modal-section-title">What this page shows</div>
+            <p style={{fontSize:13,color:'var(--tx2)',lineHeight:1.75}}>
+              This page shows how different AI agents perform on real systems course assignments — the same tasks graded by the same autograders used for students. For each course, you can see how often models complete tasks, how many interaction steps they use, and where they fail. Instructors can use these results to identify which assignments are already solvable by AI agents, and which parts of their course may need redesign, stronger scaffolding, or updated policy.
+            </p>
+          </div>
+
+          {/* KEY TERMS */}
+          <div className="modal-section">
+            <div className="modal-section-title">Key terms</div>
+            {[
+              {term:'Course',     def:'A real university systems course included in SysEduBench — such as UIUC CS 341 (Systems Programming) or UIUC CS 423 (Operating Systems Design).'},
+              {term:'Task',       def:'One assignment, machine problem, or lab from that course. Each task is graded by the course\'s official autograder, exactly as student submissions are.'},
+              {term:'Task success',def:'Whether the AI agent earned full marks on this task in at least one of its runs. A task is "solved" only if the autograder awards 100% — partial credit does not count.'},
+              {term:'Mean score', def:'The average percentage of points earned across all runs of a task. A model scoring 95/100 every run has a high mean score but zero task success — because it never hits 100%.'},
+              {term:'Turns',      def:'The number of steps the agent took — reading files, writing code, running commands, fixing errors. More turns often means more debugging. Successful runs typically use fewer turns.'},
+              {term:'Tokens',     def:'The approximate amount of text the model processed (input + output). Tokens correlate with cost. Higher token usage on failures often signals the agent spiraled without converging.'},
+              {term:'Model',      def:'The AI system being evaluated — e.g. Claude Sonnet 4.6, GPT-5.4-mini. Different models have different capability levels, costs, and failure patterns.'},
+              {term:'Harness',    def:'The framework used to run the model. ReAct gives the agent a bash shell and lets it reason + act in a loop. Claude Code is an integrated coding assistant interface.'},
+            ].map(({term,def})=><div className="modal-term" key={term}>
+              <span className="modal-term-name">{term}</span>
+              <span className="modal-term-def">{def}</span>
+            </div>)}
+          </div>
+
+          {/* RESOURCE TIERS */}
+          <div className="modal-section">
+            <div className="modal-section-title">Resource tiers</div>
+            {[
+              {name:'Student friendly',desc:'Free or university-provided models — what students can realistically deploy using tools like UIUC\'s Lumen platform.'},
+              {name:'Common resources',desc:'Models and usage budgets realistically available to most students or non-professional users.'},
+              {name:'Resource rich',   desc:'Frontier models with larger budgets — closer to professional or research deployments. Shows the upper bound of AI capability on these tasks.'},
+            ].map(({name,desc})=><div className="modal-term" key={name}>
+              <span className="modal-term-name">{name}</span>
+              <span className="modal-term-def">{desc}</span>
+            </div>)}
+          </div>
+
+          {/* COLOR LEGEND */}
+          <div className="modal-section">
+            <div className="modal-section-title">How to read the heatmap colors</div>
+            <p style={{fontSize:12,color:'var(--tx3)',marginBottom:12,lineHeight:1.6}}>Colors show AI performance from an <strong style={{color:'var(--tx)'}}>instructor's perspective</strong> — not a model capability ranking.</p>
+            {[
+              {color:'#fee2e2',tc:'#991b1b',label:'Red — High AI performance',desc:'AI agents solve this task easily. High exposure risk for assessment.'},
+              {color:'#fed7aa',tc:'#9a3412',label:'Amber — Partial AI performance',desc:'AI makes meaningful progress but does not reliably complete the task.'},
+              {color:'#dcfce7',tc:'#166534',label:'Green — Low AI performance',desc:'AI agents struggle here. This task still requires genuine human effort.'},
+              {color:'#f2f2ee',tc:'#9c9c9e',label:'Grey — No data',desc:'This task was not run or had scorer errors — excluded from analysis.'},
+            ].map(({color,tc,label,desc})=><div className="legend-row" key={label}>
+              <div className="legend-swatch" style={{background:color,border:'1px solid '+tc+'44'}}/>
+              <div>
+                <div style={{fontSize:12,fontWeight:600,color:tc}}>{label}</div>
+                <div style={{fontSize:12,color:'var(--tx2)'}}>{desc}</div>
+              </div>
+            </div>)}
+          </div>
+
+          {/* NUANCE */}
+          <div className="modal-nuance">
+            <div className="modal-nuance-title"><i className="ti ti-info-circle" aria-hidden="true"/>A note on interpretation</div>
+            <div className="modal-nuance-body">
+              We do not assume that AI success on a task is inherently bad. AI systems can support learning, tutoring, and explanation in valuable ways. However, when the goal is <em>assessment</em> — measuring what a student understands and can build — unsupervised AI completion may reduce the reliability of that assignment as a measure of student understanding. SysEduBench helps instructors distinguish between productive AI support and assessment vulnerability.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+}
+
 function SysLabPage({dark}){
   const[selCourse,setSelCourse]=useState('uiuc_cs341');
+  const[showGlossary,setShowGlossary]=useState(false);
   const course=D.courses.find(c=>c.id===selCourse);
   return<div className="wrap"><div className="sec">
-    <div className="sec-head"><div className="sec-title">SysLab</div><div className="sec-sub">49 tasks · sandboxed Docker · graded by course autograders</div></div>
+    {showGlossary&&<GlossaryModal onClose={()=>setShowGlossary(false)}/>}
+
+    {/* PAGE HEADER */}
+    <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:20,flexWrap:'wrap',gap:12}}>
+      <div>
+        <div className="sec-title" style={{fontFamily:'var(--serif)',fontSize:24,fontWeight:500,letterSpacing:'-.5px',marginBottom:6}}>SysLab</div>
+        <p style={{fontSize:13,color:'var(--tx2)',lineHeight:1.7,maxWidth:620}}>
+          This page shows how AI agents perform on real systems course assignments — graded by the same autograders used for students. For each course, you can see how often models complete tasks, how many steps they take, and where they fail. Use these results to understand which assignments are already solvable by AI and which still require genuine systems understanding.
+        </p>
+      </div>
+      <button
+        onClick={()=>setShowGlossary(true)}
+        style={{display:'flex',alignItems:'center',gap:7,padding:'8px 16px',borderRadius:8,background:'var(--surf)',border:'1px solid var(--brd)',fontSize:13,fontWeight:600,color:'var(--tx2)',cursor:'pointer',whiteSpace:'nowrap',flexShrink:0,transition:'all .15s'}}
+        onMouseEnter={e=>{e.currentTarget.style.borderColor='var(--acc)';e.currentTarget.style.color='var(--acc)';}}
+        onMouseLeave={e=>{e.currentTarget.style.borderColor='var(--brd)';e.currentTarget.style.color='var(--tx2)';}}
+      >
+        <i className="ti ti-book-2" aria-hidden="true"/>How to read this page
+      </button>
+    </div>
     <div style={{display:'grid',gridTemplateColumns:'260px 1fr',gap:24,alignItems:'start'}}>
       <div>
         <div style={{fontSize:11,fontWeight:700,letterSpacing:'.8px',textTransform:'uppercase',color:'var(--tx3)',marginBottom:10}}>Select a course</div>
