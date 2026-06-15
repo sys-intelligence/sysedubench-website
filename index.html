@@ -355,18 +355,18 @@ function HomePage({go}){
     <div className="pillars">
       <div className="pillar">
         <div className="pillar-icon" style={{background:'rgba(41,82,163,.1)',color:'var(--acc)'}}><i className="ti ti-school" aria-hidden="true"/></div>
-        <div className="pillar-title">Real course materials</div>
-        <div className="pillar-body">Tasks come directly from university courses at MIT, UIUC, PKU, SFU, and UChicago — the same assignments students work on. Not synthetic problems. Not simplified versions.</div>
+        <div className="pillar-title">The same assignments. The same grader.</div>
+        <div className="pillar-body">Tasks come directly from university systems courses at MIT, UIUC, PKU, SFU, and UChicago — unchanged from what students receive. The same autograder that grades your students grades the AI agent. If the agent passes, it passes on the same terms a student would.</div>
       </div>
       <div className="pillar">
         <div className="pillar-icon" style={{background:'rgba(22,101,52,.1)',color:'#166534'}}><i className="ti ti-robot" aria-hidden="true"/></div>
-        <div className="pillar-title">Automated, reproducible grading</div>
-        <div className="pillar-body">Each lab runs inside a sandboxed Docker container and is graded by the course's own autograder. Exam questions use exact-match or an LLM judge validated against human TAs. No rubric approximations.</div>
+        <div className="pillar-title">A grade that means something.</div>
+        <div className="pillar-body">Every run is scored by the course's official test suite inside a sandboxed environment. No rubric approximation. No partial-credit inflation. Pass means pass. Fail means fail — and we tell you exactly where and why.</div>
       </div>
       <div className="pillar">
         <div className="pillar-icon" style={{background:'rgba(124,58,237,.1)',color:'#7c3aed'}}><i className="ti ti-arrows-exchange" aria-hidden="true"/></div>
-        <div className="pillar-title">Knowledge versus building</div>
-        <div className="pillar-body">Every course contributes both an exam and lab component on the same topics. This lets us directly measure the gap between knowing how a system works and being able to build one.</div>
+        <div className="pillar-title">Knowing is not the same as building.</div>
+        <div className="pillar-body">All models score higher on exam questions than on lab tasks — revealing a gap between conceptual understanding and implementation ability. This gap varies by domain, model, and task type. It's the central finding of SysEduBench, and it changes how you should think about AI in your course.</div>
       </div>
     </div>
 
@@ -962,40 +962,9 @@ function VisualAidPage(){
 
   const s=stages[cur];
   return<div className="wrap"><div className="sec">
-    <div className="sec-head"><div className="sec-title">How it works</div><div className="sec-sub">click through each stage</div></div>
-
-    {/* dots */}
-    <div style={{display:'flex',gap:6,justifyContent:'center',marginBottom:'1.5rem'}}>
-      {stages.map((_,i)=><div key={i} onClick={()=>setCur(i)} style={{width:i===cur?24:8,height:8,borderRadius:i===cur?4:50,background:i===cur?'var(--tx)':'var(--brd2)',cursor:'pointer',transition:'all .2s'}}/>)}
-    </div>
-
-    {/* svg stage */}
-    <div className="card" style={{padding:0,overflow:'hidden',marginBottom:20}}>
-      <svg width="100%" viewBox="0 0 680 380" style={{display:'block'}}>
-        <style>{`@keyframes spin{to{transform:rotate(360deg)}} @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}} @keyframes flow{to{stroke-dashoffset:-22}}`}</style>
-        {s.svg}
-      </svg>
-    </div>
-
-    {/* caption */}
-    <div style={{textAlign:'center',marginBottom:'1.5rem'}}>
-      <div style={{fontSize:11,fontWeight:700,letterSpacing:'.8px',textTransform:'uppercase',color:'var(--tx3)',marginBottom:6}}>{s.label}</div>
-      <div style={{fontSize:14,color:'var(--tx2)',lineHeight:1.7,maxWidth:520,margin:'0 auto'}}>{s.caption}</div>
-    </div>
-
-    {/* nav */}
-    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:64}}>
-      <button className="btn btn-g" onClick={()=>setCur(c=>c-1)} disabled={cur===0} style={{opacity:cur===0?.3:1}}>
-        <i className="ti ti-arrow-left" aria-hidden="true"/>Back
-      </button>
-      <span style={{fontSize:12,color:'var(--tx3)'}}>{cur+1} / {stages.length}</span>
-      <button className="btn btn-g" onClick={()=>setCur(c=>c+1)} disabled={cur===stages.length-1} style={{opacity:cur===stages.length-1?.3:1}}>
-        Next<i className="ti ti-arrow-right" aria-hidden="true"/>
-      </button>
-    </div>
+    <div className="sec-head"><div className="sec-title">How it works</div></div>
 
     {/* ── WHY THIS MATTERS ── */}
-    <hr className="divider" style={{marginBottom:56}}/>
     <div style={{marginBottom:56}}>
       <div style={{fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',color:'var(--acc)',marginBottom:12,display:'flex',alignItems:'center',gap:8}}>
         <div style={{width:18,height:1.5,background:'var(--acc)'}}/>Why this matters
@@ -1029,7 +998,7 @@ function VisualAidPage(){
 
     {/* ── HOW WE DO IT ── */}
     <hr className="divider" style={{marginBottom:56}}/>
-    <div style={{marginBottom:56}}>
+    <div style={{marginBottom:40}}>
       <div style={{fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',color:'var(--acc)',marginBottom:12,display:'flex',alignItems:'center',gap:8}}>
         <div style={{width:18,height:1.5,background:'var(--acc)'}}/>How we do it
       </div>
@@ -1054,6 +1023,33 @@ function VisualAidPage(){
             <div style={{fontSize:13,color:'var(--tx2)',lineHeight:1.72}}>{step.body}</div>
           </div>
         </div>)}
+      </div>
+    </div>
+
+    {/* ── VISUAL AID — inside each step ── */}
+    <div style={{marginBottom:56}}>
+      <div style={{fontSize:13,color:'var(--tx3)',marginBottom:16,textAlign:'center',fontStyle:'italic'}}>See it step by step — click through what happens inside the benchmark</div>
+      <div style={{display:'flex',gap:6,justifyContent:'center',marginBottom:'1rem'}}>
+        {stages.map((_,i)=><div key={i} onClick={()=>setCur(i)} style={{width:i===cur?24:8,height:8,borderRadius:i===cur?4:50,background:i===cur?'var(--tx)':'var(--brd2)',cursor:'pointer',transition:'all .2s'}}/>)}
+      </div>
+      <div className="card" style={{padding:0,overflow:'hidden',marginBottom:16}}>
+        <svg width="100%" viewBox="0 0 680 380" style={{display:'block'}}>
+          <style>{`@keyframes spin{to{transform:rotate(360deg)}} @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}} @keyframes flow{to{stroke-dashoffset:-22}}`}</style>
+          {s.svg}
+        </svg>
+      </div>
+      <div style={{textAlign:'center',marginBottom:12}}>
+        <div style={{fontSize:11,fontWeight:700,letterSpacing:'.8px',textTransform:'uppercase',color:'var(--tx3)',marginBottom:5}}>{s.label}</div>
+        <div style={{fontSize:13,color:'var(--tx2)',lineHeight:1.7,maxWidth:480,margin:'0 auto'}}>{s.caption}</div>
+      </div>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <button className="btn btn-g" onClick={()=>setCur(c=>c-1)} disabled={cur===0} style={{opacity:cur===0?.3:1,padding:'7px 16px',fontSize:13}}>
+          <i className="ti ti-arrow-left" aria-hidden="true"/>Back
+        </button>
+        <span style={{fontSize:12,color:'var(--tx3)'}}>{cur+1} / {stages.length}</span>
+        <button className="btn btn-g" onClick={()=>setCur(c=>c+1)} disabled={cur===stages.length-1} style={{opacity:cur===stages.length-1?.3:1,padding:'7px 16px',fontSize:13}}>
+          Next<i className="ti ti-arrow-right" aria-hidden="true"/>
+        </button>
       </div>
     </div>
 
