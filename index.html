@@ -206,65 +206,23 @@ const D=window.SEB_DATA;
 const DOMAIN_COLORS={os:'#2952a3',dist:'#166534',intro:'#7c3aed',db:'#92400e'};
 const DOMAIN_LABELS={os:'Operating Systems',dist:'Distributed Systems',intro:'Intro to Systems',db:'Database Systems'};
 
-/* ── INFO TIP ── */
 function InfoTip({text}){
   const[show,setShow]=useState(false);
   const[pos,setPos]=useState({x:0,y:0});
   const btnRef=useRef();
-
   const handleEnter=()=>{
-    if(btnRef.current){
-      const r=btnRef.current.getBoundingClientRect();
-      setPos({x:r.left+r.width/2,y:r.top-10});
-    }
+    if(btnRef.current){const r=btnRef.current.getBoundingClientRect();setPos({x:r.left+r.width/2,y:r.top-10});}
     setShow(true);
   };
-
-  const btnStyle={
-    display:'inline-flex',alignItems:'center',justifyContent:'center',
-    width:15,height:15,borderRadius:'50%',
-    background:'#2952a3',color:'#ffffff',
-    fontSize:10,fontWeight:800,lineHeight:1,
-    textTransform:'none',letterSpacing:0,
-    flexShrink:0,cursor:'help',userSelect:'none',
-    border:'none',padding:0,
-    fontFamily:'Georgia,serif',fontStyle:'italic',
-  };
-
+  const bs={display:'inline-flex',alignItems:'center',justifyContent:'center',width:15,height:15,borderRadius:'50%',background:'#2952a3',color:'#fff',fontSize:10,fontWeight:800,lineHeight:1,textTransform:'none',letterSpacing:0,flexShrink:0,cursor:'help',userSelect:'none',border:'none',padding:0,fontFamily:'Georgia,serif',fontStyle:'italic'};
   return(
-    <span style={{position:'relative',display:'inline-flex',alignItems:'center',
-      marginLeft:5,verticalAlign:'middle',textTransform:'none',letterSpacing:0}}>
-      <button
-        ref={btnRef}
-        style={btnStyle}
-        onMouseEnter={handleEnter}
-        onMouseLeave={()=>setShow(false)}
-        onFocus={handleEnter}
-        onBlur={()=>setShow(false)}
-        onClick={e=>{e.stopPropagation();show?setShow(false):handleEnter();}}
-        aria-label={'More info: '+text}
-      >i</button>
+    <span style={{position:'relative',display:'inline-flex',alignItems:'center',marginLeft:5,verticalAlign:'middle',textTransform:'none',letterSpacing:0}}>
+      <button ref={btnRef} style={bs} onMouseEnter={handleEnter} onMouseLeave={()=>setShow(false)} onFocus={handleEnter} onBlur={()=>setShow(false)} onClick={e=>{e.stopPropagation();show?setShow(false):handleEnter();}} aria-label={'Info: '+text}>i</button>
       {show&&typeof document!=='undefined'&&ReactDOM.createPortal(
-        <span style={{
-          position:'fixed',
-          left:pos.x,top:pos.y,
-          transform:'translate(-50%, -100%)',
-          background:'#1a1a18',color:'#f0f0e8',
-          fontSize:12,lineHeight:1.6,fontWeight:400,
-          padding:'9px 12px',borderRadius:8,
-          whiteSpace:'normal',width:220,zIndex:99999,
-          boxShadow:'0 6px 20px rgba(0,0,0,.3)',
-          pointerEvents:'none',textAlign:'left',
-          fontFamily:'"Inter",system-ui,sans-serif',
-          letterSpacing:'normal',textTransform:'none',
-        }}>
-          <span style={{position:'absolute',top:'100%',left:'50%',transform:'translateX(-50%)',
-            width:0,height:0,
-            borderLeft:'5px solid transparent',borderRight:'5px solid transparent',
-            borderTop:'5px solid #1a1a18'}}/>
+        <span style={{position:'fixed',left:pos.x,top:pos.y,transform:'translate(-50%,-100%)',background:'#1a1a18',color:'#f0f0e8',fontSize:12,lineHeight:1.6,fontWeight:400,padding:'9px 12px',borderRadius:8,whiteSpace:'normal',width:220,zIndex:99999,boxShadow:'0 6px 20px rgba(0,0,0,.3)',pointerEvents:'none',textAlign:'left',fontFamily:'"Inter",system-ui,sans-serif',letterSpacing:'normal',textTransform:'none'}}>
+          <span style={{position:'absolute',top:'100%',left:'50%',transform:'translateX(-50%)',width:0,height:0,borderLeft:'5px solid transparent',borderRight:'5px solid transparent',borderTop:'5px solid #1a1a18'}}/>
           {text}
-        </span>,
-        document.body
+        </span>,document.body
       )}
     </span>
   );
@@ -277,16 +235,14 @@ function useHash(def){
   return[v,id=>{location.hash='#/'+id;}];
 }
 
-// Instructor-facing color logic:
-// HIGH score = RED = this assignment is VULNERABLE to AI
-// LOW score  = GREEN = this assignment still requires human effort
+// Instructor-facing: HIGH score = RED (vulnerable), LOW score = GREEN (safe)
 function hmColor(val,dark){
   if(val===null||val===undefined)return dark?'#1a1a18':'#f2f2ee';
-  if(val>=.95)return dark?'#3b0e0e':'#fee2e2';  // deep red — fully exposed
-  if(val>=.75)return dark?'#5c1a1a':'#fecaca';  // red
-  if(val>=.5) return dark?'#7c2d12':'#fed7aa';  // amber-red
-  if(val>=.25)return dark?'#1c2a1a':'#dcfce7';  // light green — partial resistance
-  return dark?'#14311e':'#bbf7d0';               // green — resistant
+  if(val>=.95)return dark?'#3b0e0e':'#fee2e2';
+  if(val>=.75)return dark?'#5c1a1a':'#fecaca';
+  if(val>=.5) return dark?'#7c2d12':'#fed7aa';
+  if(val>=.25)return dark?'#1c2a1a':'#dcfce7';
+  return dark?'#14311e':'#bbf7d0';
 }
 function hmText(val,dark){
   if(val===null||val===undefined)return dark?'#484844':'#c0c0b8';
@@ -438,7 +394,7 @@ function HomePage({go}){
    SYSLAB PAGE
 ══════════════════════════════════════════════ */
 function SysLabPage({dark}){
-  const[selCourse,setSelCourse]=useState('uiuc_cs423');
+  const[selCourse,setSelCourse]=useState('uiuc_cs341');
   const course=D.courses.find(c=>c.id===selCourse);
   return<div className="wrap"><div className="sec">
     <div className="sec-head"><div className="sec-title">SysLab</div><div className="sec-sub">49 tasks · sandboxed Docker · graded by course autograders</div></div>
@@ -491,12 +447,8 @@ function CourseDetail({course,dark}){
       <div style={{fontSize:20,fontFamily:'var(--serif)',fontWeight:500}}>{course.name} — {course.full_name}</div>
     </div>
     {course.tiers.length>1&&<div className="tier-toggle">
-      {course.tiers.map(tt=><button key={tt.id}
-        className={'tt'+(tier===tt.id?' on':'')}
-        onClick={()=>{setTier(tt.id);setExpanded(null);}}
-        style={tt.id==='student'&&tier===tt.id?{color:'#166534'}:{}}>
-        {tt.id==='student'&&<span style={{marginRight:4}}>🎓</span>}
-        {tt.label}
+      {course.tiers.map(tt=><button key={tt.id} className={'tt'+(tier===tt.id?' on':'')} onClick={()=>setTier(tt.id)}>
+        {tt.id==='student'&&<span style={{marginRight:4}}>🎓</span>}{tt.label}
       </button>)}
     </div>}
     <p style={{fontSize:12,color:'var(--tx3)',marginBottom:20}}>{t.desc}</p>
@@ -521,9 +473,9 @@ function CourseDetail({course,dark}){
           <table>
             <thead><tr>
               <th>#</th><th>Model</th><th>Harness</th>
-              <th className="r">Task success<InfoTip text="Fraction of the 8 tasks this model solved completely (full marks) across 3 runs. A task counts as solved if at least one run passes."/></th>
-              <th className="r">Mean score<InfoTip text="Average percentage of points earned across all tasks and all runs. Partial credit counts — a model scoring 11/12 on Malloc still contributes here."/></th>
-              <th className="r">Avg turns<InfoTip text="Average number of agent turns used per task. More turns often means more debugging iterations. Passing runs typically use fewer turns than failing ones."/></th>
+              <th className="r">Task success<InfoTip text="Fraction of tasks this model solved completely (full marks) in at least one of 3 runs."/></th>
+              <th className="r">Mean score<InfoTip text="Average % of points earned across all tasks and runs. Partial credit counts."/></th>
+              <th className="r">Avg turns<InfoTip text="Average agent turns per task. More turns = more debugging. Passing runs typically use fewer."/></th>
             </tr></thead>
             <tbody>
               {sorted.map((m,i)=><tr key={m.id}>
@@ -537,9 +489,7 @@ function CourseDetail({course,dark}){
             </tbody>
           </table>
         </div>
-        <div style={{fontSize:13,fontWeight:600,marginBottom:10}}>
-          Task-level heatmap{tier==='student'?' (errors excluded)':''}<InfoTip text="Each cell shows the mean score for one model on one task, averaged across 3 runs. 100% = full credit every run. Green = high, red = low or zero."/> <span style={{fontSize:11,color:'var(--tx3)',fontWeight:400,marginLeft:4}}>mean score per model × task (3 runs each)</span>
-        </div>
+        <div style={{fontSize:13,fontWeight:600,marginBottom:10}}>Task-level heatmap{tier==='student'?' (errors excluded)':''}<InfoTip text="RED = high AI score = assignment is vulnerable. GREEN = low AI score = still requires human effort."/> <span style={{fontSize:11,color:'var(--tx3)',fontWeight:400,marginLeft:4}}>mean score per model × task (3 runs each)</span></div>
         <div className="card" style={{marginBottom:20}}>
           <div className="hm-wrap">
             <table className="hm">
@@ -562,32 +512,20 @@ function CourseDetail({course,dark}){
       </>
     }
 
-    <div style={{fontSize:13,fontWeight:600,marginBottom:10}}>Task summary<InfoTip text="Best score = highest points any model achieved on this task out of the total available. Solved by = models that earned full marks on at least one run."/></div>
+    <div style={{fontSize:13,fontWeight:600,marginBottom:10}}>Task summary<InfoTip text="Best score = highest points any model achieved. Solved by = models that earned full marks in at least one run."/></div>
     <div className="card">
       <table>
         <thead><tr>
-          <th>#</th>
-          <th>Task</th>
-          <th>Topics</th>
-          <th className="r">Best score<InfoTip text="Highest raw points any model scored, out of the task's total. A partial score means no model achieved full credit — but some made meaningful progress."/></th>
-          <th>Solved by<InfoTip text="Models that earned full marks (100%) on this task in at least one of their 3 runs. Empty means no model solved it completely under this resource tier."/></th>
+          <th>#</th><th>Task</th><th>Topics</th>
+          <th className="r">Best score<InfoTip text="Highest raw points any model scored. Partial = no model got full credit but some made progress."/></th>
+          <th>Solved by<InfoTip text="Models that earned full marks (100%) in at least one run. Empty = no model solved it completely."/></th>
         </tr></thead>
         <tbody>
           {course.tasks.map((t,i)=>{
-            // best raw points any model achieved on this task
-            const scored=sorted.map(m=>({
-              model:m,
-              raw:m.per_task[t.id]!==undefined
-                ?Math.round(m.per_task[t.id]*t.max_points)
-                :null
-            })).filter(x=>x.raw!==null);
+            const scored=sorted.map(m=>({model:m,raw:m.per_task[t.id]!==undefined?Math.round(m.per_task[t.id]*t.max_points):null})).filter(x=>x.raw!==null);
             const bestRaw=scored.length>0?Math.max(...scored.map(x=>x.raw)):null;
             const pct=bestRaw!==null?Math.round(bestRaw/t.max_points*100):null;
-            // models that hit full marks
-            const solvers=sorted.filter(m=>
-              m.per_task[t.id]!==undefined&&
-              Math.round(m.per_task[t.id]*t.max_points)===t.max_points
-            );
+            const solvers=sorted.filter(m=>m.per_task[t.id]!==undefined&&Math.round(m.per_task[t.id]*t.max_points)===t.max_points);
             return<tr key={t.id}>
               <td style={{color:'var(--tx3)',fontFamily:'var(--mono)',fontSize:11}}>MP{i+1}</td>
               <td><div className="tname">{t.name}</div></td>
@@ -595,33 +533,18 @@ function CourseDetail({course,dark}){
               <td className="r">
                 {bestRaw!==null
                   ?<div className="prog">
-                    <div className="pbar">
-                      <div className="pfill" style={{
-                        width:pct+'%',
-                        background:pct===100?'var(--fail)':pct>=60?'#f97316':'var(--pass)'
-                      }}/>
-                    </div>
-                    <span style={{
-                      fontFamily:'var(--mono)',fontSize:12,fontWeight:600,
-                      minWidth:56,textAlign:'right',
-                      color:pct===100?'var(--fail)':pct>=60?'#c2410c':'var(--pass)'
-                    }}>{bestRaw} / {t.max_points}</span>
+                    <div className="pbar"><div className="pfill" style={{width:pct+'%',background:pct===100?'var(--fail)':pct>=60?'#f97316':'var(--pass)'}}/></div>
+                    <span style={{fontFamily:'var(--mono)',fontSize:12,fontWeight:600,minWidth:56,textAlign:'right',color:pct===100?'var(--fail)':pct>=60?'#c2410c':'var(--pass)'}}>{bestRaw} / {t.max_points}</span>
                   </div>
                   :<span style={{color:'var(--tx3)',fontSize:12}}>—</span>}
               </td>
               <td>
                 {solvers.length===0
                   ?<span style={{fontSize:12,color:'var(--tx3)',fontStyle:'italic'}}>
-                    {bestRaw!==null&&bestRaw>0
-                      ?`Partial — best: ${scored.find(x=>x.raw===bestRaw)?.model.name} (${bestRaw}/${t.max_points})`
-                      :'Not solved'}
+                    {bestRaw!==null&&bestRaw>0?`Partial — best: ${scored.find(x=>x.raw===bestRaw)?.model.name} (${bestRaw}/${t.max_points})`:'Not solved'}
                   </span>
                   :<div style={{display:'flex',flexWrap:'wrap',gap:5}}>
-                    {solvers.map(m=><span key={m.id} style={{
-                      fontSize:11,fontWeight:600,padding:'2px 8px',borderRadius:100,
-                      background:'var(--pass-bg)',color:'var(--pass)',
-                      display:'inline-flex',alignItems:'center',gap:3
-                    }}><i className="ti ti-check" style={{fontSize:10}} aria-hidden="true"/>{m.name}</span>)}
+                    {solvers.map(m=><span key={m.id} style={{fontSize:11,fontWeight:600,padding:'2px 8px',borderRadius:100,background:'var(--pass-bg)',color:'var(--pass)',display:'inline-flex',alignItems:'center',gap:3}}><i className="ti ti-check" style={{fontSize:10}} aria-hidden="true"/>{m.name}</span>)}
                   </div>}
               </td>
             </tr>;
