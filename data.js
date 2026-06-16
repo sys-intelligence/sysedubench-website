@@ -127,8 +127,40 @@ window.SEB_DATA = {
         }
       ]
     },
-    { id:"mit_6_1810",   name:"MIT 6.1810",         full_name:"Operating System Engineering",      domain:"os",   institution:"MIT",                                 year:2024, language:"C",   has_results:false, tasks:[] },
-    { id:"pku_os",       name:"PKU OS",              full_name:"Operating Systems",                 domain:"os",   institution:"Peking University",                   year:2025, language:"C",   has_results:false, tasks:[] },
+    { id:"mit_6_1810", name:"MIT 6.1810", full_name:"Operating System Engineering", domain:"os", institution:"MIT", year:2022, language:"C", has_results:true,
+      tasks:[
+        {id:"t1",short:"Util",   name:"Utilities",          topics:"Unix utilities · C basics",             max_points:100},
+        {id:"t2",short:"Syscall",name:"System Calls",       topics:"xv6 syscalls · user/kernel boundary",  max_points:40},
+        {id:"t3",short:"PgTbl",  name:"Page Tables",        topics:"Page tables · virtual memory",         max_points:46},
+        {id:"t4",short:"Traps",  name:"Traps",              topics:"Traps · interrupts · signal handling", max_points:95},
+        {id:"t5",short:"CoW",    name:"Copy-on-Write Fork", topics:"CoW fork · physical memory",           max_points:110},
+        {id:"t6",short:"Thread", name:"Multithreading",     topics:"User-level threads · concurrency",     max_points:60},
+        {id:"t7",short:"Net",    name:"Networking",         topics:"Network stack · sockets",              max_points:100},
+        {id:"t8",short:"Locks",  name:"Locks",              topics:"Lock contention · parallelism",        max_points:80},
+        {id:"t9",short:"FS",     name:"File System",        topics:"File system · large files · symlinks", max_points:100},
+        {id:"t10",short:"mmap",  name:"mmap",               topics:"Memory-mapped files · lazy allocation",max_points:140},
+      ],
+      tiers:[{id:"rich",label:"Resource rich",desc:"Frontier models · 3 runs per task · xv6 RISC-V",models:[
+        {id:"opus-mit",     name:"Claude Opus", org:"Anthropic",harness:"ReAct",n:30,mean_score:0.963,task_success:0.400,avg_turns:64, avg_tokens:null,per_task:{t1:1.000,t2:0.950,t3:0.913,t4:1.000,t5:0.909,t6:1.000,t7:0.990,t8:0.875,t9:1.000,t10:0.995}},
+        {id:"gpt55-mit",    name:"GPT-5.5",     org:"OpenAI",  harness:"ReAct",n:30,mean_score:0.939,task_success:0.500,avg_turns:36, avg_tokens:null,per_task:{t1:1.000,t2:0.900,t3:1.000,t4:0.867,t5:0.997,t6:1.000,t7:1.000,t8:0.671,t9:1.000,t10:0.952}},
+        {id:"gpt54-mit",    name:"GPT-5.4",     org:"OpenAI",  harness:"ReAct",n:30,mean_score:0.887,task_success:0.400,avg_turns:40, avg_tokens:null,per_task:{t1:1.000,t2:1.000,t3:1.000,t4:0.933,t5:0.824,t6:1.000,t7:0.663,t8:0.629,t9:0.867,t10:0.955}},
+        {id:"gpt54mini-mit",name:"GPT-5.4-mini",org:"OpenAI",  harness:"ReAct",n:30,mean_score:0.865,task_success:0.100,avg_turns:78, avg_tokens:null,per_task:{t1:1.000,t2:0.908,t3:0.957,t4:0.912,t5:0.730,t6:0.939,t7:0.997,t8:0.546,t9:0.997,t10:0.664}},
+      ]}]
+    },
+    { id:"pku_os", name:"PKU OS", full_name:"Operating Systems", domain:"os", institution:"Peking University", year:2025, language:"C", has_results:true,
+      tasks:[
+        {id:"t1",short:"Threads", name:"Threads",             topics:"Kernel threads · synchronization · scheduling",    max_points:100},
+        {id:"t2",short:"Userprog",name:"User Programs",       topics:"User programs · system calls · process management",max_points:100},
+        {id:"t3",short:"VM",      name:"Virtual Memory",      topics:"Virtual memory · page faults · eviction",          max_points:100},
+        {id:"t4",short:"mmap",    name:"Memory-Mapped Files", topics:"mmap · file-backed pages · lazy loading",          max_points:100},
+      ],
+      tiers:[{id:"rich",label:"Resource rich",desc:"Frontier models · 3 runs per task · Pintos OS on x86",models:[
+        {id:"gpt54-pku",    name:"GPT-5.4",     org:"OpenAI",  harness:"ReAct",n:12,mean_score:0.917,task_success:0.750,avg_turns:74, avg_tokens:null,per_task:{t1:1.000,t2:1.000,t3:0.667,t4:1.000}},
+        {id:"gpt55-pku",    name:"GPT-5.5",     org:"OpenAI",  harness:"ReAct",n:12,mean_score:0.917,task_success:0.750,avg_turns:82, avg_tokens:null,per_task:{t1:1.000,t2:1.000,t3:0.667,t4:1.000}},
+        {id:"opus-pku",     name:"Claude Opus", org:"Anthropic",harness:"ReAct",n:12,mean_score:0.667,task_success:0.500,avg_turns:114,avg_tokens:null,per_task:{t1:1.000,t2:1.000,t3:0.000,t4:0.667}},
+        {id:"gpt54mini-pku",name:"GPT-5.4-mini",org:"OpenAI",  harness:"ReAct",n:12,mean_score:0.333,task_success:0.250,avg_turns:180,avg_tokens:null,per_task:{t1:0.333,t2:0.000,t3:0.000,t4:1.000}},
+      ]}]
+    },
     {
       id: "uiuc_cs423",
       name: "UIUC CS 423",
