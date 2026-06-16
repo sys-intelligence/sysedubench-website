@@ -140,12 +140,27 @@ window.SEB_DATA = {
         {id:"t9",short:"FS",     name:"File System",        topics:"File system · large files · symlinks", max_points:100},
         {id:"t10",short:"mmap",  name:"mmap",               topics:"Memory-mapped files · lazy allocation",max_points:140},
       ],
-      tiers:[{id:"rich",label:"Resource rich",desc:"Frontier models · 3 runs per task · xv6 RISC-V",models:[
-        {id:"opus-mit",     name:"Claude Opus", org:"Anthropic",harness:"ReAct",n:30,mean_score:0.963,task_success:0.400,avg_turns:64, avg_tokens:null,per_task:{t1:1.000,t2:0.950,t3:0.913,t4:1.000,t5:0.909,t6:1.000,t7:0.990,t8:0.875,t9:1.000,t10:0.995}},
-        {id:"gpt55-mit",    name:"GPT-5.5",     org:"OpenAI",  harness:"ReAct",n:30,mean_score:0.939,task_success:0.500,avg_turns:36, avg_tokens:null,per_task:{t1:1.000,t2:0.900,t3:1.000,t4:0.867,t5:0.997,t6:1.000,t7:1.000,t8:0.671,t9:1.000,t10:0.952}},
-        {id:"gpt54-mit",    name:"GPT-5.4",     org:"OpenAI",  harness:"ReAct",n:30,mean_score:0.887,task_success:0.400,avg_turns:40, avg_tokens:null,per_task:{t1:1.000,t2:1.000,t3:1.000,t4:0.933,t5:0.824,t6:1.000,t7:0.663,t8:0.629,t9:0.867,t10:0.955}},
-        {id:"gpt54mini-mit",name:"GPT-5.4-mini",org:"OpenAI",  harness:"ReAct",n:30,mean_score:0.865,task_success:0.100,avg_turns:78, avg_tokens:null,per_task:{t1:1.000,t2:0.908,t3:0.957,t4:0.912,t5:0.730,t6:0.939,t7:0.997,t8:0.546,t9:0.997,t10:0.664}},
-      ]}]
+      tiers:[
+        {
+          id:"common", label:"Common resources",
+          desc:"Models & budgets realistically available to students · 1 run per task · xv6 RISC-V",
+          models:[
+            { id:"gpt52-mit", name:"GPT-5.2", org:"OpenAI", harness:"ReAct",
+              n:10, mean_score:0.903, task_success:0.800, avg_turns:103, avg_tokens:null,
+              per_task:{t1:1.000, t2:1.000, t3:1.000, t4:0.895, t5:1.000, t6:1.000, t7:1.000, t8:1.000, t9:1.000, t10:0.136} },
+          ]
+        },
+        {
+          id:"rich", label:"Resource rich",
+          desc:"Frontier models · 3 runs per task · xv6 RISC-V",
+          models:[
+            {id:"opus-mit",     name:"Claude Opus", org:"Anthropic",harness:"ReAct",n:30,mean_score:0.963,task_success:0.400,avg_turns:64, avg_tokens:null,per_task:{t1:1.000,t2:0.950,t3:0.913,t4:1.000,t5:0.909,t6:1.000,t7:0.990,t8:0.875,t9:1.000,t10:0.995}},
+            {id:"gpt55-mit",    name:"GPT-5.5",     org:"OpenAI",  harness:"ReAct",n:30,mean_score:0.939,task_success:0.500,avg_turns:36, avg_tokens:null,per_task:{t1:1.000,t2:0.900,t3:1.000,t4:0.867,t5:0.997,t6:1.000,t7:1.000,t8:0.671,t9:1.000,t10:0.952}},
+            {id:"gpt54-mit",    name:"GPT-5.4",     org:"OpenAI",  harness:"ReAct",n:30,mean_score:0.887,task_success:0.400,avg_turns:40, avg_tokens:null,per_task:{t1:1.000,t2:1.000,t3:1.000,t4:0.933,t5:0.824,t6:1.000,t7:0.663,t8:0.629,t9:0.867,t10:0.955}},
+            {id:"gpt54mini-mit",name:"GPT-5.4-mini",org:"OpenAI",  harness:"ReAct",n:30,mean_score:0.865,task_success:0.100,avg_turns:78, avg_tokens:null,per_task:{t1:1.000,t2:0.908,t3:0.957,t4:0.912,t5:0.730,t6:0.939,t7:0.997,t8:0.546,t9:0.997,t10:0.664}},
+          ]
+        }
+      ]
     },
     { id:"pku_os", name:"PKU OS", full_name:"Operating Systems", domain:"os", institution:"Peking University", year:2025, language:"C", has_results:true,
       tasks:[
