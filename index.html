@@ -230,6 +230,66 @@ td.r{text-align:right;}td.c{text-align:center;}
 .legend-row:last-child{border-bottom:none;}
 .legend-swatch{width:36px;height:16px;border-radius:4px;flex-shrink:0;}
 
+/* TRACE MODAL */
+.trace-modal{max-width:780px;}
+.trace-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;}
+.trace-mc{background:var(--surf2);border-radius:8px;padding:10px 12px;}
+.trace-mc-lbl{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--tx3);margin-bottom:3px;}
+.trace-mc-val{font-size:16px;font-weight:600;color:var(--tx);font-family:var(--mono);}
+.trace-mc-sub{font-size:10px;color:var(--tx3);margin-top:1px;}
+.trace-filters{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.trace-filter{font-size:11px;padding:4px 10px;border:1px solid var(--brd);border-radius:20px;background:transparent;cursor:pointer;color:var(--tx2);}
+.trace-filter.on{background:var(--surf2);color:var(--tx);border-color:var(--brd2);}
+.trace-chat{display:flex;flex-direction:column;gap:0;}
+.trace-turn{margin-bottom:20px;}
+.trace-step{text-align:center;font-size:10px;color:var(--tx3);font-family:var(--mono);margin-bottom:8px;}
+.trace-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:5px;}
+.trace-row.right{flex-direction:row-reverse;}
+.trace-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;margin-top:1px;}
+.av-ai{background:#dbeafe;color:#1d4ed8;border:1.5px solid #93c5fd;}
+[data-dark] .av-ai{background:#1e3a5f;color:#60a5fa;border-color:#1d4ed8;}
+.av-term{background:#1e1e1e;color:#86efac;font-size:8px;font-family:var(--mono);}
+.trace-bubble{max-width:86%;border-radius:12px;}
+.trace-row.right .trace-bubble{border-bottom-right-radius:3px;}
+.trace-row:not(.right) .trace-bubble{border-bottom-left-radius:3px;}
+.tb-think{background:#eff6ff;padding:9px 12px;border-radius:inherit;}
+[data-dark] .tb-think{background:#1e3a5f;}
+.tb-think-lbl{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#1d4ed8;margin-bottom:4px;display:flex;align-items:center;gap:4px;}
+[data-dark] .tb-think-lbl{color:#60a5fa;}
+.tb-think-txt{font-size:12px;color:#1e40af;line-height:1.6;font-style:italic;}
+[data-dark] .tb-think-txt{color:#93c5fd;}
+.tb-cmd{background:#18181b;padding:9px 12px;border-radius:inherit;}
+.tb-cmd-lbl{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#71717a;margin-bottom:4px;display:flex;align-items:center;gap:4px;}
+.tb-cmd-txt{font-family:var(--mono);font-size:11px;color:#e4e4e7;white-space:pre-wrap;word-break:break-all;line-height:1.5;}
+.tb-cmd-txt .prompt{color:#86efac;user-select:none;}
+.tb-term{background:var(--surf2);border:1px solid var(--brd);padding:9px 12px;border-radius:inherit;}
+.tb-term-lbl{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;display:flex;align-items:center;gap:4px;}
+.tb-term-txt{font-family:var(--mono);font-size:11px;color:var(--tx2);white-space:pre-wrap;word-break:break-all;line-height:1.5;max-height:140px;overflow-y:auto;}
+.tb-term-txt.err{color:var(--fail);}
+.tb-term-txt.ok{color:var(--pass);}
+.tb-term-empty{font-size:11px;color:var(--tx3);font-style:italic;font-family:var(--mono);}
+.trace-verdict{background:var(--fail-bg);border:1px solid var(--fail);border-radius:10px;padding:12px 14px;margin-top:16px;}
+.trace-verdict-lbl{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--fail);margin-bottom:5px;display:flex;align-items:center;gap:5px;}
+.trace-verdict-txt{font-size:12px;color:var(--tx2);line-height:1.6;}
+.trace-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 0;gap:12px;color:var(--tx3);}
+.trace-loading i{font-size:28px;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.trace-err-msg{text-align:center;padding:40px;color:var(--tx3);font-size:13px;}
+.task-row-clickable{cursor:pointer;transition:background .12s;}
+.task-row-clickable:hover{background:var(--surf2);}
+.trace-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;vertical-align:middle;}
+.tb-pass{background:var(--pass-bg);color:var(--pass);}
+.tb-fail{background:var(--fail-bg);color:var(--fail);}
+.trace-chip{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.chip-explore{background:#dbeafe;color:#1d4ed8;}
+.chip-edit{background:#dcfce7;color:#166534;}
+.chip-build{background:#fef3c7;color:#92400e;}
+.chip-test{background:#fee2e2;color:#991b1b;}
+[data-dark] .chip-explore{background:#1e3a5f;color:#60a5fa;}
+[data-dark] .chip-edit{background:#14532d;color:#4ade80;}
+[data-dark] .chip-build{background:#451a03;color:#fbbf24;}
+[data-dark] .chip-test{background:#450a0a;color:#f87171;}
+
 footer{border-top:1px solid var(--brd);padding:28px;text-align:center;font-size:13px;color:var(--tx3);}
 footer a{color:var(--acc);}
 </style>
@@ -569,6 +629,167 @@ function GlossaryModal({onClose}){
   );
 }
 
+function TraceModal({taskId,modelId,taskName,courseName,onClose,dark}){
+  const[data,setData]=useState(null);
+  const[err,setErr]=useState(null);
+  const[filter,setFilter]=useState('all');
+  useEffect(()=>{
+    const key=`trace_${modelId}__${taskId}`;
+    const cached=sessionStorage.getItem(key);
+    if(cached){setData(JSON.parse(cached));return;}
+    fetch(`./traces/${modelId}__${taskId}.json`)
+      .then(r=>{if(!r.ok)throw new Error('Trace not found');return r.json();})
+      .then(d=>{sessionStorage.setItem(key,JSON.stringify(d));setData(d);})
+      .catch(()=>setErr('No trace available for this task yet.'));
+  },[taskId,modelId]);
+  useEffect(()=>{
+    const h=e=>{if(e.key==='Escape')onClose();};
+    window.addEventListener('keydown',h);
+    return()=>window.removeEventListener('keydown',h);
+  },[onClose]);
+
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function fmtTime(ws){const m=Math.floor(ws/60),s=Math.round(ws%60);return m>0?`${m}m ${s}s`:`${s}s`;}
+
+  const CATS={explore:'Explore',edit:'Edit file',build:'Build',test:'Run grader'};
+  const filterBtns=[
+    {id:'all',label:'All steps'},
+    {id:'explore',label:'🔍 Explore'},
+    {id:'edit',label:'✏️ Edit'},
+    {id:'build',label:'🔨 Build'},
+    {id:'test',label:'🧪 Grade'},
+  ];
+
+  const turns=data?data.turns.filter(t=>filter==='all'||t.category===filter):[];
+
+  return React.createElement('div',{className:'modal-overlay',onClick:onClose},
+    React.createElement('div',{className:'modal trace-modal',onClick:e=>e.stopPropagation()},
+      React.createElement('div',{className:'modal-head'},
+        React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:3}},
+          React.createElement('div',{style:{fontSize:11,color:'var(--tx3)',fontWeight:600,letterSpacing:'.5px',textTransform:'uppercase'}},courseName),
+          React.createElement('span',{className:'modal-title'},taskName,
+            data&&React.createElement('span',{className:`trace-badge ${data.meta.score==='PASS'?'tb-pass':'tb-fail'}`},
+              React.createElement('i',{className:`ti ti-${data.meta.score==='PASS'?'check':'x'}`,style:{fontSize:9},ariaHidden:'true'}),
+              data.meta.score
+            )
+          )
+        ),
+        React.createElement('button',{className:'modal-close',onClick:onClose,'aria-label':'Close'},
+          React.createElement('i',{className:'ti ti-x',ariaHidden:'true'})
+        )
+      ),
+      React.createElement('div',{className:'modal-body'},
+        err
+          ?React.createElement('div',{className:'trace-err-msg'},
+              React.createElement('i',{className:'ti ti-file-off',style:{fontSize:28,display:'block',marginBottom:10}}),
+              err
+            )
+          :!data
+          ?React.createElement('div',{className:'trace-loading'},
+              React.createElement('i',{className:'ti ti-loader'}),
+              React.createElement('span',{style:{fontSize:13}},'Loading trace...')
+            )
+          :React.createElement(React.Fragment,null,
+              /* meta cards */
+              React.createElement('div',{className:'trace-meta'},
+                React.createElement('div',{className:'trace-mc'},
+                  React.createElement('div',{className:'trace-mc-lbl'},'Turns used'),
+                  React.createElement('div',{className:'trace-mc-val'},data.meta.num_turns),
+                  React.createElement('div',{className:'trace-mc-sub'},`${data.meta.num_model_calls} model calls`)
+                ),
+                React.createElement('div',{className:'trace-mc'},
+                  React.createElement('div',{className:'trace-mc-lbl'},'Time'),
+                  React.createElement('div',{className:'trace-mc-val'},`${data.meta.working_time}s`),
+                  React.createElement('div',{className:'trace-mc-sub'},`total ${data.meta.total_time}s`)
+                ),
+                React.createElement('div',{className:'trace-mc'},
+                  React.createElement('div',{className:'trace-mc-lbl'},'Input tokens'),
+                  React.createElement('div',{className:'trace-mc-val'},(data.meta.input_tokens/1000).toFixed(1)+'k'),
+                  React.createElement('div',{className:'trace-mc-sub'},`${Math.round(data.meta.cached_tokens/1000)}k cached`)
+                ),
+                React.createElement('div',{className:'trace-mc'},
+                  React.createElement('div',{className:'trace-mc-lbl'},'Model'),
+                  React.createElement('div',{className:'trace-mc-val',style:{fontSize:12}},data.meta.model_name),
+                  React.createElement('div',{className:'trace-mc-sub'},'ReAct harness')
+                )
+              ),
+              /* filters */
+              React.createElement('div',{className:'trace-filters'},
+                filterBtns.map(f=>
+                  React.createElement('button',{key:f.id,className:`trace-filter${filter===f.id?' on':''}`,onClick:()=>setFilter(f.id)},f.label)
+                )
+              ),
+              /* chat turns */
+              React.createElement('div',{className:'trace-chat'},
+                turns.map((t,i)=>{
+                  const stepNum=data.turns.indexOf(t)+1;
+                  const cmdDisplay=t.cmd.replace(/cd \/root\/workspace && /g,'').replace(/\/root\/workspace\//g,'');
+                  const resText=t.result.trim();
+                  const resClass=t.is_error?'err':(resText.toLowerCase().includes('pass')&&!resText.toLowerCase().includes('fail')?'ok':'');
+                  return React.createElement('div',{key:i,className:'trace-turn'},
+                    React.createElement('div',{className:'trace-step'},`step ${stepNum} · ${fmtTime(t.ws)}`),
+                    /* thinking */
+                    React.createElement('div',{className:'trace-row'},
+                      React.createElement('div',{className:'trace-av av-ai',title:'AI student ('+data.meta.model_name+')'},'AI'),
+                      React.createElement('div',{className:'trace-bubble'},
+                        React.createElement('div',{className:'tb-think'},
+                          React.createElement('div',{className:'tb-think-lbl'},
+                            React.createElement('i',{className:'ti ti-brain',style:{fontSize:12},ariaHidden:'true'}),'thinking'
+                          ),
+                          React.createElement('div',{className:'tb-think-txt'},t.reasoning)
+                        )
+                      )
+                    ),
+                    /* command */
+                    React.createElement('div',{className:'trace-row right',style:{marginTop:4}},
+                      React.createElement('div',{className:'trace-av av-ai',title:'AI student'},'AI'),
+                      React.createElement('div',{className:'trace-bubble'},
+                        React.createElement('div',{className:'tb-cmd'},
+                          React.createElement('div',{className:'tb-cmd-lbl'},
+                            React.createElement('i',{className:'ti ti-terminal-2',style:{fontSize:11},ariaHidden:'true'}),
+                            'bash · ',
+                            React.createElement('span',{className:`trace-chip chip-${t.category}`},CATS[t.category]||t.category)
+                          ),
+                          React.createElement('div',{className:'tb-cmd-txt'},
+                            React.createElement('span',{className:'prompt'},'$ '),
+                            cmdDisplay
+                          )
+                        )
+                      )
+                    ),
+                    /* terminal */
+                    React.createElement('div',{className:'trace-row',style:{marginTop:4}},
+                      React.createElement('div',{className:'trace-av av-term',title:'Docker sandbox terminal'},':~$'),
+                      React.createElement('div',{className:'trace-bubble'},
+                        React.createElement('div',{className:'tb-term'},
+                          React.createElement('div',{className:'tb-term-lbl'},
+                            React.createElement('i',{className:'ti ti-device-desktop',style:{fontSize:11},ariaHidden:'true'}),
+                            'terminal output'
+                          ),
+                          resText
+                            ?React.createElement('div',{className:`tb-term-txt ${resClass}`,dangerouslySetInnerHTML:{__html:esc(resText)}})
+                            :React.createElement('div',{className:'tb-term-empty'},'(no output)')
+                        )
+                      )
+                    )
+                  );
+                })
+              ),
+              /* verdict if failed */
+              data.meta.score==='FAIL'&&data.meta.failure_reason&&
+                React.createElement('div',{className:'trace-verdict'},
+                  React.createElement('div',{className:'trace-verdict-lbl'},
+                    React.createElement('i',{className:'ti ti-flag',style:{fontSize:13},ariaHidden:'true'}),
+                    'Why it failed'
+                  ),
+                  React.createElement('div',{className:'trace-verdict-txt'},data.meta.failure_reason)
+                )
+            )
+      )
+    )
+  );
+}
+
 function SysLabPage({dark}){
   const[selCourse,setSelCourse]=useState('uiuc_cs341');
   const[showGlossary,setShowGlossary]=useState(false);
@@ -629,11 +850,24 @@ function SysLabPage({dark}){
 
 function CourseDetail({course,dark}){
   const[tier,setTier]=useState(course.tiers[0].id);
+  const[traceOpen,setTraceOpen]=useState(null);
   const t=course.tiers.find(tt=>tt.id===tier);
   const hasModels=t.models.length>0;
   const sorted=hasModels?[...t.models].sort((a,b)=>b.task_success-a.task_success):[];
   const best=sorted[0];
+  const traceModel=sorted[0];
+  const TRACE_TASKS={'mit_6_1810':['t1','t2','t3','t4','t5','t6','t7','t8','t9','t10']};
+  const hasTier=course.id==='mit_6_1810'&&tier==='common';
+  const hasTrace=(taskId)=>hasTier&&(TRACE_TASKS[course.id]||[]).includes(taskId);
   return<div>
+    {traceOpen&&React.createElement(TraceModal,{
+      taskId:traceOpen.taskId,
+      modelId:traceOpen.modelId,
+      taskName:traceOpen.taskName,
+      courseName:course.name,
+      dark:dark,
+      onClose:()=>setTraceOpen(null)
+    })}
     <div style={{marginBottom:20}}>
       <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:6}}>
         <div className="domain-pill" style={{background:DOMAIN_COLORS[course.domain]}}>{DOMAIN_LABELS[course.domain]}</div>
@@ -721,9 +955,19 @@ function CourseDetail({course,dark}){
             const bestRaw=scored.length>0?Math.max(...scored.map(x=>x.raw)):null;
             const pct=bestRaw!==null?Math.round(bestRaw/t.max_points*100):null;
             const solvers=sorted.filter(m=>m.per_task[t.id]!==undefined&&Math.round(m.per_task[t.id]*t.max_points)===t.max_points);
-            return<tr key={t.id}>
+            const canTrace=hasTrace(t.id)&&traceModel;
+            return<tr key={t.id}
+              className={canTrace?'task-row-clickable':''}
+              onClick={canTrace?()=>setTraceOpen({taskId:t.id,modelId:traceModel.id,taskName:t.name}):undefined}
+              title={canTrace?'Click to view agent trace':''}
+            >
               <td style={{color:'var(--tx3)',fontFamily:'var(--mono)',fontSize:11}}>MP{i+1}</td>
-              <td><div className="tname">{t.name}</div></td>
+              <td>
+                <div style={{display:'flex',alignItems:'center',gap:6}}>
+                  <div className="tname">{t.name}</div>
+                  {canTrace&&<i className="ti ti-message-2-code" style={{fontSize:12,color:'var(--acc)',opacity:.7}} aria-hidden="true" title="Agent trace available"/>}
+                </div>
+              </td>
               <td style={{fontSize:12,color:'var(--tx2)'}}>{t.topics}</td>
               <td className="r">
                 {bestRaw!==null
